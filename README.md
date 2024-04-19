@@ -1,2 +1,2 @@
 # name-caser
-Extension method to convert casings
+Extension methods to convert casings
