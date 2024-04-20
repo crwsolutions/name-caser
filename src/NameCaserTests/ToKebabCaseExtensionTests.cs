@@ -38,6 +38,7 @@ public class ToKebabCaseExtensionTests
     [InlineData("MixedCaseString", "mixed-case-string")]
     [InlineData("already-kebab-case", "already-kebab-case")]
     [InlineData("IODriver", "io-driver")]
+    [InlineData("SomeIODriver", "some-io-driver")]
     public void ToKebabCase_ConvertsToKebabCase(string input, string expected)
     {
         // Act

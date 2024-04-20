@@ -37,6 +37,7 @@ public class ToConstantCaseExtensionTests
     [InlineData("MixedCaseString", "MIXED_CASE_STRING")]
     [InlineData("all_lower_case", "ALL_LOWER_CASE")]
     [InlineData("IODriver", "IO_DRIVER")]
+    [InlineData("SomeIODriver", "SOME_IO_DRIVER")]
     public void ToConstantCase_ConvertsToConstantCase(string input, string expected)
     {
         // Act

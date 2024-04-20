@@ -37,6 +37,7 @@ public class ToCamelCaseExtensionTests
     [InlineData("MixedCaseString", "mixedCaseString")]
     [InlineData("AlreadyCamelCase", "alreadyCamelCase")]
     [InlineData("IODriver", "ioDriver")]
+    [InlineData("SomeIODriver", "someIODriver")]
     public void ToCamelCase_ConvertsToCamelCase(string input, string expected)
     {
         // Act
