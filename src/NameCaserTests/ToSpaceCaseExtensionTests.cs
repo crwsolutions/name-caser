@@ -8,7 +8,7 @@ public class ToSpaceCaseExtensionTests
     public void ToSpaceCase_ReturnsNull_WhenInputIsNull()
     {
         // Arrange
-        string input = null;
+        string? input = null;
 
         // Act
         string result = input.ToSpaceCase();

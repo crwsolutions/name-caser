@@ -8,7 +8,7 @@ public class ToConstantCaseExtensionTests
     public void ToConstantCase_ReturnsNull_WhenInputIsNull()
     {
         // Arrange
-        string input = null;
+        string? input = null;
 
         // Act
         string result = input.ToConstantCase();

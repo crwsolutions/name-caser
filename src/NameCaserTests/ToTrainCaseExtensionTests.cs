@@ -8,7 +8,7 @@ public class ToTrainCaseExtensionTests
     public void ToTrainCase_ReturnsNull_WhenInputIsNull()
     {
         // Arrange
-        string input = null;
+        string? input = null;
 
         // Act
         string result = input.ToTrainCase();
