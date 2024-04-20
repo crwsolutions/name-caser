@@ -11,7 +11,9 @@ public class ToConstantCaseExtensionTests
         string? input = null;
 
         // Act
-        string result = input.ToConstantCase();
+#pragma warning disable CS8604 // Possible null reference argument.
+        string? result = input.ToConstantCase();
+#pragma warning restore CS8604 // Possible null reference argument.
 
         // Assert
         Assert.Null(result);
@@ -24,7 +26,7 @@ public class ToConstantCaseExtensionTests
         string input = "";
 
         // Act
-        string result = input.ToConstantCase();
+        string? result = input.ToConstantCase();
 
         // Assert
         Assert.Equal("", result);
@@ -41,7 +43,7 @@ public class ToConstantCaseExtensionTests
     public void ToConstantCase_ConvertsToConstantCase(string input, string expected)
     {
         // Act
-        string result = input.ToConstantCase();
+        string? result = input.ToConstantCase();
 
         // Assert
         Assert.Equal(expected, result);
@@ -54,7 +56,7 @@ public class ToConstantCaseExtensionTests
     public void ToConstantCase_NoChangeForNonPascalCase(string input, string expected)
     {
         // Act
-        string result = input.ToConstantCase();
+        string? result = input.ToConstantCase();
 
         // Assert
         Assert.Equal(expected, result);

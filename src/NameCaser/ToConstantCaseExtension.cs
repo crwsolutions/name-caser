@@ -8,7 +8,7 @@ namespace NameCaser
         /// <summary>
         /// PacalCase to CONSTANT_CASE, eg. IODriver to 'IO_DRIVER'
         /// </summary>
-        public static string ToConstantCase(this string pascalCase)
+        public static string? ToConstantCase(this string pascalCase)
         {
             if (pascalCase is null) return null;
 

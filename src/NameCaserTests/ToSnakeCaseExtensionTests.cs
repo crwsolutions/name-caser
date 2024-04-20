@@ -11,7 +11,9 @@ public class ToSnakeCaseExtensionTests
         string? input = null;
 
         // Act
-        string result = input.ToSnakeCase();
+#pragma warning disable CS8604 // Possible null reference argument.
+        string? result = input.ToSnakeCase();
+#pragma warning restore CS8604 // Possible null reference argument.
 
         // Assert
         Assert.Null(result);
@@ -24,7 +26,7 @@ public class ToSnakeCaseExtensionTests
         string input = "";
 
         // Act
-        string result = input.ToSnakeCase();
+        string? result = input.ToSnakeCase();
 
         // Assert
         Assert.Equal("", result);
@@ -41,7 +43,7 @@ public class ToSnakeCaseExtensionTests
     public void ToSnakeCase_ConvertsToSnakeCase(string input, string expected)
     {
         // Act
-        string result = input.ToSnakeCase();
+        string? result = input.ToSnakeCase();
 
         // Assert
         Assert.Equal(expected, result);
@@ -53,7 +55,7 @@ public class ToSnakeCaseExtensionTests
     public void ToSnakeCase_NoChangeForNonPascalCase(string input, string expected)
     {
         // Act
-        string result = input.ToSnakeCase();
+        string? result = input.ToSnakeCase();
 
         // Assert
         Assert.Equal(expected, result);

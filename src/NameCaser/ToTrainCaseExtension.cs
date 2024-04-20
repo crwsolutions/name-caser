@@ -8,7 +8,7 @@ namespace NameCaser
         /// <summary>
         /// PacalCase to Train-Case, eg. IODriver to 'IO-Driver'
         /// </summary>
-        public static string ToTrainCase(this string pascalCase)
+        public static string? ToTrainCase(this string pascalCase)
         {
             if (pascalCase is null) return null;
 

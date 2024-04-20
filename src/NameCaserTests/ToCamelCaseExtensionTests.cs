@@ -11,7 +11,9 @@ public class ToCamelCaseExtensionTests
         string? input = null;
 
         // Act
-        string result = input.ToCamelCase();
+#pragma warning disable CS8604 // Possible null reference argument.
+        string? result = input.ToCamelCase();
+#pragma warning restore CS8604 // Possible null reference argument.
 
         // Assert
         Assert.Null(result);
@@ -24,7 +26,7 @@ public class ToCamelCaseExtensionTests
         string? input = "";
 
         // Act
-        string result = input.ToCamelCase();
+        string? result = input.ToCamelCase();
 
         // Assert
         Assert.Equal("",result);
@@ -41,7 +43,7 @@ public class ToCamelCaseExtensionTests
     public void ToCamelCase_ConvertsToCamelCase(string input, string expected)
     {
         // Act
-        string result = input.ToCamelCase();
+        string? result = input.ToCamelCase();
 
         // Assert
         Assert.Equal(expected, result);
@@ -54,7 +56,7 @@ public class ToCamelCaseExtensionTests
     public void ToCamelCase_NoChangeForNonPascalCase(string input, string expected)
     {
         // Act
-        string result = input.ToCamelCase();
+        string? result = input.ToCamelCase();
 
         // Assert
         Assert.Equal(expected, result);
