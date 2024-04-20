@@ -20,6 +20,7 @@
         <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
         <Description>String extension methods to convert Pascal casing to other casings</Description>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <Title>String extension methods to convert Pascal casing to other casings</Title>
   </PropertyGroup>
     <ItemGroup>
         <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
