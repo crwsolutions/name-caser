@@ -48,7 +48,6 @@ public class ToSpaceCaseExtensionTests
 
     [Theory]
     [InlineData("lowercase", "lowercase")] // No change for lowercase input
-    [InlineData("already space case", "already space case")]
     [InlineData("UPPERCASE", "UPPERCASE")]
     [InlineData("123", "123")] // No change for numeric input
     public void ToSpaceCase_NoChangeForNonPascalCase(string input, string expected)

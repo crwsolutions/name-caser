@@ -30,10 +30,6 @@ namespace NameCaser
                 {
                     builder.Append(pascalCase[i]);
                 }
-                else if (pascalCase[i] == ' ')
-                {
-                    builder.Append(pascalCase[i]);
-                }
                 else if (char.IsLower(pascalCase[i - 1])) // if current char is upper and previous char is lower
                 {
                     builder.Append(" ");
