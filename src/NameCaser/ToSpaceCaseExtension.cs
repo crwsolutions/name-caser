@@ -33,9 +33,16 @@ namespace NameCaser
                 else if (char.IsLower(pascalCase[i - 1])) // if current char is upper and previous char is lower
                 {
                     builder.Append(" ");
-                    builder.Append(char.ToLower(pascalCase[i]));
+                    if (IsPartOfAbbreviation(pascalCase, i))
+                    {
+                        builder.Append(pascalCase[i]);
+                    }
+                    else
+                    {
+                        builder.Append(char.ToLower(pascalCase[i]));
+                    }
                 }
-                else if (i + 1 == pascalCase.Length || char.IsUpper(pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
+                else if (IsPartOfAbbreviation(pascalCase, i)) // if current char is upper and next char doesn't exist or is upper
                 {
                     builder.Append(pascalCase[i]);
                 }
@@ -47,5 +54,7 @@ namespace NameCaser
             }
             return builder.ToString();
         }
+
+        private static bool IsPartOfAbbreviation(string pascalCase, int i) => i + 1 == pascalCase.Length || char.IsUpper(pascalCase[i + 1]);
     }
 }
