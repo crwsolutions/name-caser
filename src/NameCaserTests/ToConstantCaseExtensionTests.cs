@@ -52,7 +52,7 @@ public class ToConstantCaseExtensionTests
     [Theory]
     [InlineData("UPPERCASE", "UPPERCASE")]
     [InlineData("ALREADY_CONST_CASE", "ALREADY_CONST_CASE")]
-    [InlineData("123", "123")] // No change for numeric input
+    [InlineData("0123456789", "0123456789")] // No change for numeric input
     public void ToConstantCase_NoChangeForNonPascalCase(string input, string expected)
     {
         // Act

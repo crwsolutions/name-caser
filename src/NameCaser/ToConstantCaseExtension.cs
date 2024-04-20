@@ -18,7 +18,7 @@ namespace NameCaser
 
             for (var i = 0; i < pascalCase.Length; i++)
             {
-                if (char.IsNumber(pascalCase[i])) // if current char is number
+                if (pascalCase[i].IsNumber()) // if current char is number
                 {
                     builder.Append(pascalCase[i]);
                 }

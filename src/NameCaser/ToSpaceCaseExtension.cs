@@ -22,7 +22,7 @@ namespace NameCaser
                 {
                     builder.Append(pascalCase[i]);
                 }
-                else if (char.IsNumber(pascalCase[i])) // if current char is number
+                else if (pascalCase[i].IsNumber()) // if current char is number
                 {
                     builder.Append(pascalCase[i]);
                 }
