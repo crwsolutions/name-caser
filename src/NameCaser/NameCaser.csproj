@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <PackageId>NameCaser</PackageId>
         <VersionSuffix Condition="'$(VersionSuffix)' == ''">0</VersionSuffix>
-        <Version>0.1.$(VersionSuffix)</Version>
+        <Version>0.2.$(VersionSuffix)</Version>
         <Authors>Colin Wilmans</Authors>
         <PackageDescription>String extension methods to convert Pascal casing to other casings</PackageDescription>
         <RepositoryUrl>https://github.com/crwsolutions/name-caser.git</RepositoryUrl>
@@ -15,7 +15,6 @@
         <PackageProjectUrl>https://github.com/crwsolutions/name-caser</PackageProjectUrl>
         <Copyright>(c) Colin Wilmans</Copyright>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <IncludeBuildOutput>false</IncludeBuildOutput>
         <IsPackable>true</IsPackable>
         <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
         <Description>String extension methods to convert Pascal casing to other casings</Description>
