@@ -18,10 +18,9 @@ public static class AnalyzeStringExtension
                 {
                     bytes[i]++;
                     breaks++;
-                    last = 1;
+                    last = 2;
                 }
-
-                if (i > 0)
+                else if (i > 0)
                 {
                     last = 1;
                 }

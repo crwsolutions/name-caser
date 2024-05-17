@@ -9,6 +9,24 @@ namespace Tests;
 public  class AnalyzeStringExtensionTests
 {
     [Fact]
+    public void AnalyzeString_OfCaseWithNumberPostfix1_GivesOneCapital()
+    {
+        // Arrange
+        string input = "CaseWithNumberPostfix1";
+
+        // Act
+        var capitals = input.Analyze();
+
+        // Assert
+        Assert.Equal(3, capitals.Breaks);
+        Assert.Equal(1, capitals.Bytes[0]);
+        Assert.Equal(0, capitals.Bytes[1]);
+        Assert.Equal(2, capitals.Bytes[4]);
+        Assert.Equal(0, capitals.Bytes[5]);
+        Assert.Equal(2, capitals.Bytes[8]);
+    }
+
+    [Fact]
     public void AnalyzeString_OfSome_GivesOneCapital()
     {
         // Arrange
