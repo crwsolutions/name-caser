@@ -1,6 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using NameCaserBenchmark;
 using System.Text;
+using NameCaser;
 
 [MemoryDiagnoser(true)]
 public class BenchMarksConstantCasing
@@ -53,6 +54,32 @@ public class BenchMarksConstantCasing
     }
 
     [Benchmark]
+    public string ConstantCaseWithAnalyzerAsBytes()
+    {
+        var span = pascalCase.AsSpan();
+        var (result, breaks) = pascalCase.Analyze();
+        var bob = new CharBuilder(pascalCase.Length + breaks);
+        for (int i = 0; i < result.Length; i++)
+        {
+            if (result[i] == 2)
+            {
+                bob.Append('_');
+                bob.Append(span[i]);
+            }
+            else if (result[i] == 1)
+            {
+                bob.Append(span[i]);
+            }
+            else
+            {
+                bob.Append(char.ToUpper(span[i]));
+            }
+        }
+
+        return bob.ToString();
+    }
+
+    //[Benchmark]
     public string ConstantCaseShuffleIfs()
     {
         var builder = new StringBuilder();
@@ -376,7 +403,7 @@ public class BenchMarksConstantCasing
         return (new string(chars[0..(charIndex-1)])).ToUpperInvariant();
     }
 
-    [Benchmark]
+    //[Benchmark]
     public string ConstantCaseAll()
     {
         Span<char> chars = stackalloc char[pascalCase.Length * 2];

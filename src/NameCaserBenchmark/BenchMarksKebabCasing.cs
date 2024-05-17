@@ -8,31 +8,57 @@ public class BenchMarksKebabCasing
 {
     readonly string _pascalCase = "IODeviceSomeLongerString";
 
-    [Benchmark]
+    [Benchmark(Baseline = true)]
     public string KebabCaseOrig()
     {
         return _pascalCase.ToKebabCase();
     }
 
     [Benchmark]
+    public string KebabCaseWithAnalyzerAsBytes()
+    {
+        var span = _pascalCase.AsSpan();
+        var (result, breaks) = _pascalCase.Analyze();
+        var bob = new CharBuilder(_pascalCase.Length + breaks);
+        for (int i = 0; i < result.Length; i++)
+        {
+            if (result[i] == 2)
+            {
+                bob.Append('_');
+                bob.Append(char.ToLower(span[i]));
+            }
+            else if (result[i] == 1)
+            {
+                bob.Append(char.ToLower(span[i]));
+            }
+            else
+            {
+                bob.Append(span[i]);
+            }
+        }
+
+        return bob.ToString();
+    }
+
+    //[Benchmark]
     public string KebabCaseUseReadOnlySpan()
     {
         return _pascalCase.UseReadOnlySpan();
     }
 
-    [Benchmark]
+    //[Benchmark]
     public string KebabCaseUseCharBuilder()
     {
         return _pascalCase.UseCharBuilder();
     }
 
-    [Benchmark]
+    //[Benchmark]
     public string KebabCaseUseBoth()
     {
         return _pascalCase.UseBoth();
     }
 
-    [Benchmark]
+    //[Benchmark]
     public string KebabCaseUseBothWithStruct()
     {
         return _pascalCase.UseBoth();
