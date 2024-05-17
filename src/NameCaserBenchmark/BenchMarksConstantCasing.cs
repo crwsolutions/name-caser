@@ -57,7 +57,7 @@ public class BenchMarksConstantCasing
     public string ConstantCaseWithAnalyzerAsBytes()
     {
         var span = pascalCase.AsSpan();
-        var (result, breaks) = pascalCase.Analyze();
+        var (result, breaks) = span.Analyze();
         var bob = new CharBuilder(pascalCase.Length + breaks);
         for (int i = 0; i < result.Length; i++)
         {
@@ -79,6 +79,43 @@ public class BenchMarksConstantCasing
         return bob.ToString();
     }
 
+    [Benchmark]
+    public string ConstantCaseWithAnalyzerAndAction()
+    {
+        return Parse(pascalCase, (type, c, builder) =>
+        {
+            if (type == 2)
+            {
+                builder.Append('_');
+                builder.Append(c);
+            }
+            else if (type == 1)
+            {
+                builder.Append(c);
+            }
+            else
+            {
+                builder.Append(char.ToUpper(c));
+            }
+        });
+    }
+
+    private static string Parse(string pascalCase, Action<byte, char, CharBuilder> value)
+    {
+        if (pascalCase is null) return null;
+
+        if (pascalCase.Length == 0) return string.Empty;
+
+        var span = pascalCase.AsSpan();
+        var (bytes, breaks) = span.Analyze();
+        var bob = new CharBuilder(pascalCase.Length + breaks);
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            value(bytes[i], span[i], bob);
+        }
+
+        return bob.ToString();
+    }
     //[Benchmark]
     public string ConstantCaseShuffleIfs()
     {

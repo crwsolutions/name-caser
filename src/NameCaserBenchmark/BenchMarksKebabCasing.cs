@@ -18,7 +18,7 @@ public class BenchMarksKebabCasing
     public string KebabCaseWithAnalyzerAsBytes()
     {
         var span = _pascalCase.AsSpan();
-        var (result, breaks) = _pascalCase.Analyze();
+        var (result, breaks) = span.Analyze();
         var bob = new CharBuilder(_pascalCase.Length + breaks);
         for (int i = 0; i < result.Length; i++)
         {
