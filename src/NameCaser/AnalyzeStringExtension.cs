@@ -3,11 +3,10 @@
 namespace NameCaser;
 public static class AnalyzeStringExtension
 {
-    public static (byte[] Bytes, int Breaks) Analyze(this string value)
+    public static (byte[] Bytes, int Breaks) Analyze(this ReadOnlySpan<char> chars)
     {
-        var bytes = new byte[value.Length];
+        var bytes = new byte[chars.Length];
         var breaks = 0;
-        var chars = value.AsSpan();
         byte last = 2;
         for (var i = 0; i < chars.Length; i++)
         {
