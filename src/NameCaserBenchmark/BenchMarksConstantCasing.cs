@@ -100,6 +100,27 @@ public class BenchMarksConstantCasing
         });
     }
 
+    [Benchmark]
+    public string ConstantCaseWithAnalyzerAndActionAndStackAlloc()
+    {
+        return Parse2(pascalCase, (type, c, builder) =>
+        {
+            if (type == 2)
+            {
+                builder.Append('_');
+                builder.Append(c);
+            }
+            else if (type == 1)
+            {
+                builder.Append(c);
+            }
+            else
+            {
+                builder.Append(char.ToUpper(c));
+            }
+        });
+    }
+
     private static string Parse(string pascalCase, Action<byte, char, CharBuilder> value)
     {
         if (pascalCase is null) return null;
@@ -112,6 +133,52 @@ public class BenchMarksConstantCasing
         for (int i = 0; i < bytes.Length; i++)
         {
             value(bytes[i], span[i], bob);
+        }
+
+        return bob.ToString();
+    }
+
+    private static string Parse2(string pascalCase, Action<byte, char, CharBuilder> value)
+    {
+        if (pascalCase is null) return null;
+
+        if (pascalCase.Length == 0) return string.Empty;
+
+        var chars = pascalCase.AsSpan();
+        var bytes = new byte[chars.Length];
+        var breaks = 0;
+        byte last = 2;
+        for (var i = 0; i < chars.Length; i++)
+        {
+            if (char.IsUpper(chars[i]))
+            {
+                bytes[i] = 1;
+                if (last == 0)
+                {
+                    bytes[i]++;
+                    breaks++;
+                    last = 2;
+                }
+                else if (i > 0)
+                {
+                    last = 1;
+                }
+            }
+            else
+            {
+                if (last == 1)
+                {
+                    bytes[i - 1]++;
+                    breaks++;
+                }
+
+                last = 0;
+            }
+        }
+        var bob = new CharBuilder(pascalCase.Length + breaks);
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            value(bytes[i], chars[i], bob);
         }
 
         return bob.ToString();
