@@ -82,25 +82,18 @@ public class BenchMarksConstantCasing
     [Benchmark]
     public string ConstantCaseWithAnalyzerAndAction()
     {
-        return Parse(pascalCase, (type, c, builder) =>
-        {
-            if (type == 2)
+        return Parse(
+            pascalCase, 
+            (type, c) => type switch
             {
-                builder.Append('_');
-                builder.Append(c);
+                2 => '_',
+                1 => c,
+                _ => char.ToUpper(c),
             }
-            else if (type == 1)
-            {
-                builder.Append(c);
-            }
-            else
-            {
-                builder.Append(char.ToUpper(c));
-            }
-        });
+        );
     }
 
-    [Benchmark]
+    //[Benchmark]
     public string ConstantCaseWithAnalyzerAndActionAndStackAlloc()
     {
         return Parse2(pascalCase, (type, c, builder) =>
@@ -121,7 +114,7 @@ public class BenchMarksConstantCasing
         });
     }
 
-    private static string Parse(string pascalCase, Action<byte, char, CharBuilder> value)
+    private static string Parse(string pascalCase, Func<byte, char, char> value)
     {
         if (pascalCase is null) return null;
 
@@ -132,7 +125,13 @@ public class BenchMarksConstantCasing
         var bob = new CharBuilder(pascalCase.Length + breaks);
         for (int i = 0; i < bytes.Length; i++)
         {
-            value(bytes[i], span[i], bob);
+            if (bytes[i] == 2)
+            {
+                bob.Append(value(bytes[i], '*'));
+                bob.Append(value(1, span[i]));
+                continue;
+            }
+            bob.Append(value(bytes[i], span[i]));
         }
 
         return bob.ToString();
