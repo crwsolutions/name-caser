@@ -1,56 +1,53 @@
 ﻿using BenchmarkDotNet.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NameCaserBenchmark;
+
+//| Method                | Mean     | Error    | StdDev   | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
+//|---------------------- |---------:|---------:|---------:|------:|--------:|-------:|----------:|------------:|
+//| CamelCaseOrig         | 21.80 ns | 0.474 ns | 0.487 ns |  1.00 |    0.00 | 0.0172 |     144 B |        1.00 |
+//| CamelCaseStringCreate | 12.37 ns | 0.094 ns | 0.084 ns |  0.57 |    0.01 | 0.0086 |      72 B |        0.50 |
+//| CamelCaseUnsafe       | 16.25 ns | 0.088 ns | 0.078 ns |  0.74 |    0.02 | 0.0086 |      72 B |        0.50 |
 
 [MemoryDiagnoser(true)]
 public class BenchMarksCamelCasing
 {
     readonly string _pascalCase = "IODeviceSomeLongerString";
 
-    [Benchmark]
+    [Benchmark(Baseline = true)]
     public string CamelCaseOrig()
     {
-        char[] chars = _pascalCase.ToCharArray();
+        var chars = _pascalCase.ToCharArray();
 
-        for (int i = 0; i < chars.Length; i++)
+        for (var i = 0; i < chars.Length; i++)
         {
-            bool hasNext = (i + 1 < chars.Length);
+            var hasNext = (i + 1 < chars.Length);
             if (i > 0 && hasNext && !char.IsUpper(chars[i + 1]))
             {
                 break;
             }
 
-            chars[i] = char.ToLower(chars[i], CultureInfo.InvariantCulture);
+            chars[i] = char.ToLowerInvariant(chars[i]);
         }
 
         return new string(chars);
     }
 
     [Benchmark]
-    public string CamelCaseSpan()
+    public string CamelCaseStringCreate()
     {
-        var chars = _pascalCase.AsSpan();
-        int i = 1;
-        for (; i < chars.Length; i++)
+        return string.Create(_pascalCase.Length, _pascalCase, (span, input) =>
         {
-            bool hasNext = (i + 1 < chars.Length);
-            if (hasNext && !char.IsUpper(chars[i + 1]))
+            var chars = input.AsSpan();
+            chars.CopyTo(span);
+            for (var i = 0; i < span.Length; i++)
             {
-                break;
-            }
-        }
-        return string.Create(_pascalCase.Length, _pascalCase, (span, str) =>
-        {
-            //str.AsSpan().CopyTo(span);
-            for (int j = 0; j < i; j++)
-            {
-                span[j] = char.ToUpper(span[j]);
+                var hasNext = (i + 1 < chars.Length);
+                if (i > 0 && hasNext && !char.IsUpper(chars[i + 1]))
+                {
+                    break;
+                }
+
+                span[i] = char.ToLowerInvariant(chars[i]);
             }
         });
     }
@@ -59,10 +56,10 @@ public class BenchMarksCamelCasing
     public unsafe string CamelCaseUnsafe()
     {
         var chars = _pascalCase.AsSpan();
-        int i = 1;
+        var i = 1;
         for (; i < chars.Length; i++)
         {
-            bool hasNext = (i + 1 < chars.Length);
+            var hasNext = (i + 1 < chars.Length);
             if (i > 0 && hasNext && !char.IsUpper(chars[i + 1]))
             {
                 break;
@@ -72,7 +69,7 @@ public class BenchMarksCamelCasing
 
         fixed (char* p = newString)
         {
-            for (int j = 0; j < i; j++)
+            for (var j = 0; j < i; j++)
             {
                 p[j] = char.ToUpper(p[j]);
             }

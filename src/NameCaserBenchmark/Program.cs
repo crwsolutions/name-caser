@@ -10,8 +10,8 @@ internal class Program
         var s = x.ConstantCaseWithAnalyzerAsBytes();
 
         //var result = BenchmarkRunner.Run<BenchMarksKebabCasing>();
-        var result = BenchmarkRunner.Run<BenchMarksConstantCasing>();
-        //var result = BenchmarkRunner.Run<BenchMarksCamelCasing>();
+        //var result = BenchmarkRunner.Run<BenchMarksConstantCasing>();
+        var result = BenchmarkRunner.Run<BenchMarksCamelCasing>();
     }
 }
 
