@@ -19,11 +19,11 @@ public  class AnalyzeStringExtensionTests
 
         // Assert
         Assert.Equal(3, Breaks);
-        Assert.Equal(1, Bytes[0]);
-        Assert.Equal(0, Bytes[1]);
-        Assert.Equal(2, Bytes[4]);
-        Assert.Equal(0, Bytes[5]);
-        Assert.Equal(2, Bytes[8]);
+        Assert.Equal(Types.Upper, Bytes[0]);
+        Assert.Equal(Types.Lower, Bytes[1]);
+        Assert.Equal(Types.Break, Bytes[4]);
+        Assert.Equal(Types.Lower, Bytes[5]);
+        Assert.Equal(Types.Break, Bytes[8]);
     }
 
     [Fact]
@@ -37,8 +37,8 @@ public  class AnalyzeStringExtensionTests
 
         // Assert
         Assert.Equal(0, Breaks);
-        Assert.Equal(1, Bytes[0]);
-        Assert.Equal(0, Bytes[1]);
+        Assert.Equal(Types.Upper, Bytes[0]);
+        Assert.Equal(Types.Lower, Bytes[1]);
     }
 
     [Fact]
@@ -52,11 +52,11 @@ public  class AnalyzeStringExtensionTests
 
         // Assert
         Assert.Equal(1, Breaks); 
-        Assert.Equal(1, Bytes[0]);
-        Assert.Equal(1, Bytes[1]);
-        Assert.Equal(1, Bytes[2]);
-        Assert.Equal(2, Bytes[3]);
-        Assert.Equal(0, Bytes[4]);
+        Assert.Equal(Types.Upper, Bytes[0]);
+        Assert.Equal(Types.Upper, Bytes[1]);
+        Assert.Equal(Types.Upper, Bytes[2]);
+        Assert.Equal(Types.Break, Bytes[3]);
+        Assert.Equal(Types.Lower, Bytes[4]);
     }
 
     [Fact]
@@ -70,9 +70,9 @@ public  class AnalyzeStringExtensionTests
 
         // Assert
         Assert.Equal(0, Breaks);
-        Assert.Equal(1, Bytes[0]);
-        Assert.Equal(1, Bytes[1]);
-        Assert.Equal(1, Bytes[2]);
+        Assert.Equal(Types.Upper, Bytes[0]);
+        Assert.Equal(Types.Upper, Bytes[1]);
+        Assert.Equal(Types.Upper, Bytes[2]);
     }
 
     [Fact]
@@ -86,13 +86,13 @@ public  class AnalyzeStringExtensionTests
 
         // Assert
         Assert.Equal(2, Breaks);
-        Assert.Equal(1, Bytes[0]);
-        Assert.Equal(0, Bytes[1]);
-        Assert.Equal(2, Bytes[4]);
-        Assert.Equal(1, Bytes[5]);
-        Assert.Equal(1, Bytes[6]);
-        Assert.Equal(2, Bytes[7]);
-        Assert.Equal(0, Bytes[8]);
+        Assert.Equal(Types.Upper, Bytes[0]);
+        Assert.Equal(Types.Lower, Bytes[1]);
+        Assert.Equal(Types.Break, Bytes[4]);
+        Assert.Equal(Types.Upper, Bytes[5]);
+        Assert.Equal(Types.Upper, Bytes[6]);
+        Assert.Equal(Types.Break, Bytes[7]);
+        Assert.Equal(Types.Lower, Bytes[8]);
     }
 
     [Fact]
@@ -106,10 +106,10 @@ public  class AnalyzeStringExtensionTests
 
         // Assert
         Assert.Equal(1, Breaks);
-        Assert.Equal(1, Bytes[0]);
-        Assert.Equal(0, Bytes[1]);
-        Assert.Equal(2, Bytes[4]);
-        Assert.Equal(1, Bytes[5]);
-        Assert.Equal(1, Bytes[6]);
+        Assert.Equal(Types.Upper, Bytes[0]);
+        Assert.Equal(Types.Lower, Bytes[1]);
+        Assert.Equal(Types.Break, Bytes[4]);
+        Assert.Equal(Types.Upper, Bytes[5]);
+        Assert.Equal(Types.Upper, Bytes[6]);
     }
 }

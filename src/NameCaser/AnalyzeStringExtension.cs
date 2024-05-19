@@ -3,39 +3,39 @@
 namespace NameCaser;
 public static class AnalyzeStringExtension
 {
-    public static (byte[] Bytes, int Breaks) Analyze(this ReadOnlySpan<char> chars)
+    public static (Types[] Bytes, int Breaks) Analyze(this ReadOnlySpan<char> chars)
     {
-        var bytes = new byte[chars.Length];
+        var types = new Types[chars.Length];
         var breaks = 0;
-        byte last = 2;
+        Types last = Types.Break;
         for (var i = 0; i < chars.Length; i++)
         {
             if (char.IsUpper(chars[i]))
             {
-                bytes[i] = 1;
-                if (last == 0)
+                types[i] = Types.Upper;
+                if (last == Types.Lower)
                 {
-                    bytes[i]++;
+                    types[i] = Types.Break;
                     breaks++;
-                    last = 2;
+                    last = Types.Break;
                 }
                 else if (i > 0)
                 {
-                    last = 1;
+                    last = Types.Upper;
                 }
             }
             else
             {
-                if (last == 1)
+                if (last == Types.Upper)
                 {
-                    bytes[i - 1]++;
+                    types[i - 1] = Types.Break;
                     breaks++;
                 }
 
-                last = 0;
+                last = Types.Lower;
             }
         }
 
-        return (bytes, breaks);
+        return (types, breaks);
     }
 }

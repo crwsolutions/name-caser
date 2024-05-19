@@ -3,6 +3,13 @@ using NameCaserBenchmark;
 using System.Text;
 using NameCaser;
 
+//| Method                            | Mean     | Error   | StdDev  | Ratio | Gen0   | Allocated | Alloc Ratio |
+//|---------------------------------- |---------:|--------:|--------:|------:|-------:|----------:|------------:|
+//| ConstantCaseOrig                  | 223.7 ns | 1.69 ns | 1.58 ns |  1.00 | 0.0918 |     288 B |        1.00 |
+//| ConstantCaseWithAnalyzerAsBytes   | 186.1 ns | 1.08 ns | 1.01 ns |  0.83 | 0.1018 |     320 B |        1.11 |
+//| ConstantCaseFinal                 | 190.6 ns | 2.21 ns | 2.07 ns |  0.85 | 0.0663 |     208 B |        0.72 |
+//| ConstantCaseWithAnalyzerAndAction | 209.8 ns | 2.13 ns | 1.89 ns |  0.94 | 0.1016 |     320 B |        1.11 |
+
 [MemoryDiagnoser(true)]
 public class BenchMarksConstantCasing
 {
@@ -57,16 +64,16 @@ public class BenchMarksConstantCasing
     public string ConstantCaseWithAnalyzerAsBytes()
     {
         var span = pascalCase.AsSpan();
-        var (result, breaks) = span.Analyze();
+        var (types, breaks) = span.Analyze();
         var bob = new CharBuilder(pascalCase.Length + breaks);
-        for (int i = 0; i < result.Length; i++)
+        for (int i = 0; i < types.Length; i++)
         {
-            if (result[i] == 2)
+            if (types[i] == Types.Break)
             {
                 bob.Append('_');
                 bob.Append(span[i]);
             }
-            else if (result[i] == 1)
+            else if (types[i] == Types.Upper)
             {
                 bob.Append(span[i]);
             }
@@ -80,14 +87,20 @@ public class BenchMarksConstantCasing
     }
 
     [Benchmark]
+    public string ConstantCaseFinal()
+    {
+        return pascalCase.ToConstantCase()!;
+    }
+
+    [Benchmark]
     public string ConstantCaseWithAnalyzerAndAction()
     {
         return Parse(
             pascalCase, 
             (type, c) => type switch
             {
-                2 => '_',
-                1 => c,
+                Types.Break => '_',
+                Types.Upper => c,
                 _ => char.ToUpper(c),
             }
         );
@@ -114,24 +127,24 @@ public class BenchMarksConstantCasing
         });
     }
 
-    private static string Parse(string pascalCase, Func<byte, char, char> value)
+    private static string Parse(string pascalCase, Func<Types, char, char> value)
     {
         if (pascalCase is null) return null;
 
         if (pascalCase.Length == 0) return string.Empty;
 
         var span = pascalCase.AsSpan();
-        var (bytes, breaks) = span.Analyze();
+        var (types, breaks) = span.Analyze();
         var bob = new CharBuilder(pascalCase.Length + breaks);
-        for (int i = 0; i < bytes.Length; i++)
+        for (int i = 0; i < types.Length; i++)
         {
-            if (bytes[i] == 2)
+            if (types[i] == Types.Break)
             {
-                bob.Append(value(bytes[i], '*'));
-                bob.Append(value(1, span[i]));
+                bob.Append(value(types[i], '*'));
+                bob.Append(value(Types.Upper, span[i]));
                 continue;
             }
-            bob.Append(value(bytes[i], span[i]));
+            bob.Append(value(types[i], span[i]));
         }
 
         return bob.ToString();

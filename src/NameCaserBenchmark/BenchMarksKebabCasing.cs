@@ -18,16 +18,16 @@ public class BenchMarksKebabCasing
     public string KebabCaseWithAnalyzerAsBytes()
     {
         var span = _pascalCase.AsSpan();
-        var (result, breaks) = span.Analyze();
+        var (types, breaks) = span.Analyze();
         var bob = new CharBuilder(_pascalCase.Length + breaks);
-        for (int i = 0; i < result.Length; i++)
+        for (int i = 0; i < types.Length; i++)
         {
-            if (result[i] == 2)
+            if (types[i] == Types.Break)
             {
                 bob.Append('_');
                 bob.Append(char.ToLower(span[i]));
             }
-            else if (result[i] == 1)
+            else if (types[i] == Types.Upper)
             {
                 bob.Append(char.ToLower(span[i]));
             }
