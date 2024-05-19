@@ -7,21 +7,24 @@ internal static class AnalyzeStringExtension
     {
         var types = new Types[chars.Length];
         var breaks = 0;
-        Types last = Types.Break;
+        var last = Types.Break;
         for (var i = 0; i < chars.Length; i++)
         {
             if (char.IsUpper(chars[i]))
             {
-                types[i] = Types.Upper;
                 if (last == Types.Lower)
                 {
                     types[i] = Types.Break;
                     breaks++;
                     last = Types.Break;
                 }
-                else if (i > 0)
+                else
                 {
-                    last = Types.Upper;
+                    types[i] = Types.Upper;
+                    if (i > 0)
+                    {
+                        last = Types.Upper;
+                    }
                 }
             }
             else
