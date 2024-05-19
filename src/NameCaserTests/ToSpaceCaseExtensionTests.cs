@@ -39,6 +39,7 @@ public class ToSpaceCaseExtensionTests
     [InlineData("IODriver", "IO driver")]
     [InlineData("UTPCable", "UTP cable")]
     [InlineData("SomeUTPCable", "Some UTP cable")]
+    [InlineData("SomeUTP", "Some UTP")]
     public void ToSpaceCase_ConvertsToSpaceCase(string input, string expected)
     {
         // Act

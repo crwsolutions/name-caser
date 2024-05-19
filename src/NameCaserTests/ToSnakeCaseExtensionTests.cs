@@ -40,6 +40,7 @@ public class ToSnakeCaseExtensionTests
     [InlineData("MixedCaseString", "mixed_case_string")]
     [InlineData("already_kebab_case", "already_kebab_case")]
     [InlineData("IODriver", "io_driver")]
+    [InlineData("SomeUTP", "some_utp")]
     public void ToSnakeCase_ConvertsToSnakeCase(string input, string expected)
     {
         // Act
