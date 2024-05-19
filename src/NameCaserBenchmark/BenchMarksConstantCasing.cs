@@ -2,6 +2,7 @@
 using NameCaserBenchmark;
 using System.Text;
 using NameCaser;
+using NameCaser.Utils;
 
 //| Method                            | Mean     | Error   | StdDev  | Ratio | Gen0   | Allocated | Alloc Ratio |
 //|---------------------------------- |---------:|--------:|--------:|------:|-------:|----------:|------------:|
@@ -65,7 +66,7 @@ public class BenchMarksConstantCasing
     {
         var span = pascalCase.AsSpan();
         var (types, breaks) = span.Analyze();
-        var bob = new CharBuilder(pascalCase.Length + breaks);
+        var bob = new CharBuilderBenchmark(pascalCase.Length + breaks);
         for (int i = 0; i < types.Length; i++)
         {
             if (types[i] == Types.Break)
@@ -135,7 +136,7 @@ public class BenchMarksConstantCasing
 
         var span = pascalCase.AsSpan();
         var (types, breaks) = span.Analyze();
-        var bob = new CharBuilder(pascalCase.Length + breaks);
+        var bob = new CharBuilderBenchmark(pascalCase.Length + breaks);
         for (int i = 0; i < types.Length; i++)
         {
             if (types[i] == Types.Break)
@@ -150,7 +151,7 @@ public class BenchMarksConstantCasing
         return bob.ToString();
     }
 
-    private static string Parse2(string pascalCase, Action<byte, char, CharBuilder> value)
+    private static string Parse2(string pascalCase, Action<byte, char, CharBuilderBenchmark> value)
     {
         if (pascalCase is null) return null;
 
@@ -187,7 +188,7 @@ public class BenchMarksConstantCasing
                 last = 0;
             }
         }
-        var bob = new CharBuilder(pascalCase.Length + breaks);
+        var bob = new CharBuilderBenchmark(pascalCase.Length + breaks);
         for (int i = 0; i < bytes.Length; i++)
         {
             value(bytes[i], chars[i], bob);
@@ -432,7 +433,7 @@ public class BenchMarksConstantCasing
     //[Benchmark]
     public string ConstantCaseUpperCaseInTheEndCharbuilder()
     {
-        var builder = new CharBuilder(pascalCase.Length *2);
+        var builder = new CharBuilderBenchmark(pascalCase.Length *2);
 
         for (var i = 0; i < pascalCase.Length; i++)
         {

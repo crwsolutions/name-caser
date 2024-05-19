@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace NameCaser;
-public static class AnalyzeStringExtension
+namespace NameCaser.Utils;
+internal static class AnalyzeStringExtension
 {
-    public static (Types[] Bytes, int Breaks) Analyze(this ReadOnlySpan<char> chars)
+    internal static (Types[] Bytes, int Breaks) Analyze(this ReadOnlySpan<char> chars)
     {
         var types = new Types[chars.Length];
         var breaks = 0;

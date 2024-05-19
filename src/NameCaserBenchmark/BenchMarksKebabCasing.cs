@@ -1,5 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using NameCaser;
+using NameCaser.Utils;
 using NameCaserBenchmark;
 using System.Text;
 
@@ -31,7 +32,7 @@ public class BenchMarksKebabCasing
     {
         var span = _pascalCase.AsSpan();
         var (types, breaks) = span.Analyze();
-        var bob = new CharBuilder(_pascalCase.Length + breaks);
+        var bob = new CharBuilderBenchmark(_pascalCase.Length + breaks);
         for (int i = 0; i < types.Length; i++)
         {
             if (types[i] == Types.Break)
@@ -134,7 +135,7 @@ public static class KebabCaseOptimized
 
         if (pascalCase.Length == 0) return string.Empty;
 
-        var builder = new CharBuilder(pascalCase.Length * 2);
+        var builder = new CharBuilderBenchmark(pascalCase.Length * 2);
         //var builder = new StringBuilder();
 
         for (var i = 0; i < pascalCase.Length; i++)
@@ -181,7 +182,7 @@ public static class KebabCaseOptimized
 
         if (pascalCase.Length == 0) return string.Empty;
 
-        var builder = new CharBuilder(pascalCase.Length * 2);
+        var builder = new CharBuilderBenchmark(pascalCase.Length * 2);
         //var builder = new StringBuilder();
 
         for (var i = 0; i < pascalCase.Length; i++)

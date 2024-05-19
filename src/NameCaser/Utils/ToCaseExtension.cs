@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NameCaser;
+namespace NameCaser.Utils;
 internal static class ToCaseExtension
 {
     internal static string ToCase(this string pascalCase, Func<Types, char, char> callBack)

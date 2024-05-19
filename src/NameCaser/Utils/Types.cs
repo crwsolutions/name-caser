@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NameCaser;
-public enum Types : byte
+namespace NameCaser.Utils;
+internal enum Types : byte
 {
     Lower = 0,
     Upper = 1,

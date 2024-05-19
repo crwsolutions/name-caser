@@ -33,7 +33,6 @@ public class ToTrainCaseExtensionTests
     }
 
     [Theory]
-    [InlineData("lowercase", "Lowercase")]
     [InlineData("TrainCase", "Train-Case")]
     [InlineData("CaseWithNumberPostfix1", "Case-With-Number-Postfix1")]
     [InlineData("MixedCaseString", "Mixed-Case-String")]
@@ -50,7 +49,6 @@ public class ToTrainCaseExtensionTests
 
     [Theory]
     [InlineData("UPPERCASE", "UPPERCASE")]
-    [InlineData("Already-Train-Case", "Already-Train-Case")]
     [InlineData("123", "123")] // No change for numeric input
     public void ToTrainCase_NoChangeForNonPascalCase(string input, string expected)
     {

@@ -31,5 +31,8 @@
     <ItemGroup>
       <PackageReference Include="System.Memory" Version="4.5.5" />
     </ItemGroup>
-
+	<ItemGroup>
+		<InternalsVisibleTo Include="$(AssemblyName)Tests" />
+		<InternalsVisibleTo Include="$(AssemblyName)BenchMark" />
+	</ItemGroup>
 </Project>
