@@ -3,6 +3,12 @@ using NameCaser;
 using NameCaserBenchmark;
 using System.Text;
 
+//| Method                       | Mean     | Error   | StdDev  | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
+//|----------------------------- |---------:|--------:|--------:|------:|--------:|-------:|----------:|------------:|
+//| KebabCaseOrig                | 139.9 ns | 1.69 ns | 1.58 ns |  1.00 |    0.00 | 0.0918 |     288 B |        1.00 |
+//| KebabCaseFinal               | 149.1 ns | 1.41 ns | 1.10 ns |  1.06 |    0.02 | 0.0663 |     208 B |        0.72 |
+//| KebabCaseWithAnalyzerAsBytes | 143.6 ns | 1.57 ns | 1.47 ns |  1.03 |    0.01 | 0.1018 |     320 B |        1.11 |
+
 [MemoryDiagnoser(true)]
 public class BenchMarksKebabCasing
 {
@@ -11,7 +17,13 @@ public class BenchMarksKebabCasing
     [Benchmark(Baseline = true)]
     public string KebabCaseOrig()
     {
-        return _pascalCase.ToKebabCase();
+        return _pascalCase.ToLowerCaseWithSeperator('-')!;
+    }
+
+    [Benchmark]
+    public string KebabCaseFinal()
+    {
+        return _pascalCase.ToKebabCase()!;
     }
 
     [Benchmark]

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace NameCaser;
+namespace NameCaserBenchmark;
 
 internal static class ToLowerCaseWithSeperatorExtension
 {
