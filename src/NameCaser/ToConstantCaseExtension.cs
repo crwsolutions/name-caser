@@ -1,6 +1,4 @@
-﻿using NameCaser.Utils;
-
-namespace NameCaser;
+﻿namespace NameCaser;
 
 public static class ToConstantCaseExtension
 {

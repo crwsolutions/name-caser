@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NameCaser.Utils;
 internal static class ToCaseExtension
@@ -15,7 +13,7 @@ internal static class ToCaseExtension
         var span = pascalCase.AsSpan();
         var (types, breaks) = span.Analyze();
         var bob = new CharBuilder(pascalCase.Length + breaks);
-        for (int i = 0; i < types.Length; i++)
+        for (var i = 0; i < types.Length; i++)
         {
             if (types[i] == Types.Break)
             {
