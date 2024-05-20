@@ -27,7 +27,7 @@ internal static class ToCaseExtension
         return bob.ToString();
     }
 
-    internal static string ToCaseWithAbbreviations(this string pascalCase, Func<Types, char, char> callBack)
+    internal static string ToCaseWithFlags(this string pascalCase, Func<Types, char, char> callBack)
     {
         if (string.IsNullOrEmpty(pascalCase))
         {
@@ -35,15 +35,15 @@ internal static class ToCaseExtension
         }
 
         var span = pascalCase.AsSpan();
-        var (types, breaks) = span.AnalyzeWithAbbreviations();
+        var (flags, breaks) = span.AnalyzeWithFlags();
         var bob = new CharBuilder(pascalCase.Length + breaks);
-        for (var i = 0; i < types.Length; i++)
+        for (var i = 0; i < flags.Length; i++)
         {
-            if (types[i].Is(Types.Break))
+            if (flags[i].Has(Types.Break))
             {
                 bob.Append(callBack(Types.Break, '*'));
             }
-            bob.Append(callBack(types[i], span[i]));
+            bob.Append(callBack(flags[i], span[i]));
         }
 
         return bob.ToString();

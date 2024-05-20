@@ -42,7 +42,7 @@ internal static class AnalyzeStringExtension
         return (types, breaks);
     }
 
-    internal static (Types[] Bytes, int Breaks) AnalyzeWithAbbreviations(this ReadOnlySpan<char> chars)
+    internal static (Types[] Bytes, int Breaks) AnalyzeWithFlags(this ReadOnlySpan<char> chars)
     {
         var types = new Types[chars.Length];
         var breaks = 0;

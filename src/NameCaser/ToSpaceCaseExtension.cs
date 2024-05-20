@@ -7,12 +7,12 @@ public static class ToSpaceCaseExtension
     /// PacalCase to Space case, eg. IODriver to 'IO driver'
     /// </summary>
     public static string? ToSpaceCase(this string pascalCase) =>
-        pascalCase.ToCaseWithAbbreviations((type, c) => type switch
+        pascalCase.ToCaseWithFlags((flags, c) => flags switch
         {
             Types.Break => ' ',
-            { } when type.Is(Types.Abbreviation) => c,
-            { } when type.Is(Types.First) => c,
-            { } when type.Is(Types.Upper) => char.ToLower(c),
+            { } when flags.Has(Types.Abbreviation) => c,
+            { } when flags.Has(Types.First) => c,
+            { } when flags.Has(Types.Upper) => char.ToLower(c),
             _ => c,
         });
 }

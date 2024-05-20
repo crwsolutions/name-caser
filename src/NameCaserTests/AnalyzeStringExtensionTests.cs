@@ -47,7 +47,7 @@ public class AnalyzeStringExtensionTests
         _output.WriteLine(input);
 
         // Act
-        var (Bytes, Breaks) = input.AsSpan().AnalyzeWithAbbreviations();
+        var (Bytes, Breaks) = input.AsSpan().AnalyzeWithFlags();
 
         // Assert
         Assert.Equal(breaks, Breaks);
