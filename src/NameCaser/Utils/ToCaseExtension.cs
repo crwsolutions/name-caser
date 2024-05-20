@@ -15,9 +15,9 @@ internal static class ToCaseExtension
         var bob = new CharBuilder(pascalCase.Length + breaks);
         for (var i = 0; i < types.Length; i++)
         {
-            if (types[i] == Types.Break)
+            if ((types[i] & Types.Break) != 0)
             {
-                bob.Append(callBack(types[i], '*'));
+                bob.Append(callBack(Types.Break, '*'));
                 bob.Append(callBack(Types.Upper, span[i]));
                 continue;
             }
