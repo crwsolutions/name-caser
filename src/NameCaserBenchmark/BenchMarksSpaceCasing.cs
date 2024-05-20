@@ -1,13 +1,14 @@
 ﻿using BenchmarkDotNet.Attributes;
 using NameCaser.Utils;
 using System.Text;
+using NameCaser;
 
 namespace NameCaserBenchmark;
 
-//| Method         | Mean     | Error   | StdDev  | Ratio | Gen0   | Allocated | Alloc Ratio |
-//|--------------- |---------:|--------:|--------:|------:|-------:|----------:|------------:|
-//| CamelCaseOrig  | 146.8 ns | 1.98 ns | 1.76 ns |  1.00 | 0.0918 |     288 B |        1.00 |
-//| CamelCaseFinal | 113.4 ns | 1.49 ns | 1.40 ns |  0.77 | 0.0663 |     208 B |        0.72 |
+//| Method         | Mean     | Error   | StdDev  | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
+//|--------------- |---------:|--------:|--------:|------:|--------:|-------:|----------:|------------:|
+//| CamelCaseOrig  | 154.2 ns | 1.95 ns | 1.73 ns |  1.00 |    0.00 | 0.0918 |     288 B |        1.00 |
+//| CamelCaseFinal | 158.7 ns | 2.67 ns | 3.27 ns |  1.04 |    0.02 | 0.0663 |     208 B |        0.72 |
 
 [MemoryDiagnoser(true)]
 public class BenchMarksSpaceCasing
@@ -65,51 +66,7 @@ public class BenchMarksSpaceCasing
     [Benchmark]
     public string CamelCaseFinal()
     {
-        if (string.IsNullOrEmpty(_pascalCase)) return _pascalCase;
-
-        var builder = new StringBuilder();
-        var last = Types.Break;
-        for (var i = 0; i < _pascalCase.Length; i++)
-        {
-            if (char.IsUpper(_pascalCase[i]))
-            {
-                if (i == 0)
-                {
-                    builder.Append(_pascalCase[i]);
-                    last = Types.Upper;
-                    continue;
-                }
-
-                if (last == Types.Lower) // if current char is upper and previous char is lower
-                {
-                    builder.Append(' ');
-                    if (IsPartOfAbbreviation(_pascalCase, i))
-                    {
-                        builder.Append(_pascalCase[i]);
-                    }
-                    else
-                    {
-                        builder.Append(char.ToLower(_pascalCase[i]));
-                    }
-                }
-                else if (IsPartOfAbbreviation(_pascalCase, i)) // if current char is upper and next char doesn't exist or is upper
-                {
-                    builder.Append(_pascalCase[i]);
-                }
-                else // if current char is upper and next char is lower
-                {
-                    builder.Append(' ');
-                    builder.Append(char.ToLower(_pascalCase[i]));
-                }
-                last = Types.Upper;
-            }
-            else
-            {
-                builder.Append(_pascalCase[i]);
-                last = Types.Lower;
-            }
-        }
-        return builder.ToString();
+        return _pascalCase.ToSpaceCase()!;
     }
 
     private static bool IsPartOfAbbreviation(string pascalCase, int i) => i + 1 == pascalCase.Length || char.IsUpper(pascalCase[i + 1]);

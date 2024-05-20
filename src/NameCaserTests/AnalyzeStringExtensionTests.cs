@@ -1,115 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using NameCaser.Utils;
 using System.Text;
-using System.Threading.Tasks;
-using NameCaser.Utils;
+using Xunit.Abstractions;
 
-namespace Tests;
-public  class AnalyzeStringExtensionTests
+namespace NameCaserTests;
+public class AnalyzeStringExtensionTests
 {
-    [Fact]
-    public void AnalyzeString_OfCaseWithNumberPostfix1_GivesOneCapital()
+    private readonly ITestOutputHelper _output;
+
+    public AnalyzeStringExtensionTests(ITestOutputHelper output)
     {
-        // Arrange
-        string input = "CaseWithNumberPostfix1";
-
-        // Act
-        var (Bytes, Breaks) = input.AsSpan().Analyze();
-
-        // Assert
-        Assert.Equal(3, Breaks);
-        Assert.Equal(Types.Upper, Bytes[0]);
-        Assert.Equal(Types.Lower, Bytes[1]);
-        Assert.Equal(Types.Break, Bytes[4]);
-        Assert.Equal(Types.Lower, Bytes[5]);
-        Assert.Equal(Types.Break, Bytes[8]);
+        this._output = output;
     }
 
-    [Fact]
-    public void AnalyzeString_OfSome_GivesOneCapital()
+    [Theory]
+    [InlineData("CaseWithNumberPostfix1", "1000200020000020000000", 3)]
+    [InlineData("Some", "1000", 0)]
+    [InlineData("PoCo", "1020", 1)]
+    [InlineData("", "", 0)]
+    [InlineData("UTP", "111", 0)]
+    [InlineData("UTPCable", "11120000", 1)]
+    [InlineData("SomeUTPCable", "100021120000", 2)]
+    [InlineData("SomeUTP", "1000211", 1)]
+    public void Analyze_Input_ShouldGiveExpected(string input, string expected, int breaks)
     {
-        // Arrange
-        string input = "Some";
+        _output.WriteLine(input);
 
         // Act
         var (Bytes, Breaks) = input.AsSpan().Analyze();
 
         // Assert
-        Assert.Equal(0, Breaks);
-        Assert.Equal(Types.Upper, Bytes[0]);
-        Assert.Equal(Types.Lower, Bytes[1]);
+        Assert.Equal(breaks, Breaks);
+        Assert.Equal(expected, ToFlagsString(Bytes));
     }
 
-    [Fact]
-    public void AnalyzeString_OfUTPCable_GivesTwoCapitals()
+    [Theory]
+    [InlineData("CaseWithNumberPostfix1", "9000300030000030000000", 3)]
+    [InlineData("Some", "9000", 0)]
+    [InlineData("PoCo", "9030", 1)]
+    [InlineData("", "", 0)]
+    [InlineData("UTP", "1355", 0)]
+    [InlineData("UTPCable", "135530000", 1)]
+    [InlineData("SomeUTPCable", "900075530000", 2)]
+    [InlineData("SomeUTP", "9000755", 1)]
+    public void AnalyzeWithAbbreviations_Input_ShouldGiveExpected(string input, string expected, int breaks)
     {
-        // Arrange
-        string input = "UTPCable";
+        _output.WriteLine(input);
 
         // Act
-        var (Bytes, Breaks) = input.AsSpan().Analyze();
+        var (Bytes, Breaks) = input.AsSpan().AnalyzeWithFlags();
 
         // Assert
-        Assert.Equal(1, Breaks); 
-        Assert.Equal(Types.Upper, Bytes[0]);
-        Assert.Equal(Types.Upper, Bytes[1]);
-        Assert.Equal(Types.Upper, Bytes[2]);
-        Assert.Equal(Types.Break, Bytes[3]);
-        Assert.Equal(Types.Lower, Bytes[4]);
+        Assert.Equal(breaks, Breaks);
+        Assert.Equal(expected, ToFlagsString(Bytes));
     }
 
-    [Fact]
-    public void AnalyzeString_OfUTP_GivesTwoCapitals()
+
+    private static string ToFlagsString(Types[] Bytes)
     {
-        // Arrange
-        string input = "UTP";
+        var bob = new StringBuilder();
+        for (var i = 0; i < Bytes.Length; i++)
+        {
+            bob.Append((int)Bytes[i]);
+        }
 
-        // Act
-        var (Bytes, Breaks) = input.AsSpan().Analyze();
-
-        // Assert
-        Assert.Equal(0, Breaks);
-        Assert.Equal(Types.Upper, Bytes[0]);
-        Assert.Equal(Types.Upper, Bytes[1]);
-        Assert.Equal(Types.Upper, Bytes[2]);
-    }
-
-    [Fact]
-    public void AnalyzeString_OfSomeUTPCable_GivesThreeCapitals()
-    {
-        // Arrange
-        string input = "SomeUTPCable";
-
-        // Act
-        var (Bytes, Breaks) = input.AsSpan().Analyze();
-
-        // Assert
-        Assert.Equal(2, Breaks);
-        Assert.Equal(Types.Upper, Bytes[0]);
-        Assert.Equal(Types.Lower, Bytes[1]);
-        Assert.Equal(Types.Break, Bytes[4]);
-        Assert.Equal(Types.Upper, Bytes[5]);
-        Assert.Equal(Types.Upper, Bytes[6]);
-        Assert.Equal(Types.Break, Bytes[7]);
-        Assert.Equal(Types.Lower, Bytes[8]);
-    }
-
-    [Fact]
-    public void AnalyzeString_OfSomeUTP_GivesTwoCapitals()
-    {
-        // Arrange
-        string input = "SomeUTP";
-
-        // Act
-        var (Bytes, Breaks) = input.AsSpan().Analyze();
-
-        // Assert
-        Assert.Equal(1, Breaks);
-        Assert.Equal(Types.Upper, Bytes[0]);
-        Assert.Equal(Types.Lower, Bytes[1]);
-        Assert.Equal(Types.Break, Bytes[4]);
-        Assert.Equal(Types.Upper, Bytes[5]);
-        Assert.Equal(Types.Upper, Bytes[6]);
+        var s = bob.ToString();
+        return s;
     }
 }
