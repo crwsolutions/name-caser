@@ -4,7 +4,7 @@ public static class ToSpaceCaseExtension
 {
 
     /// <summary>
-    /// PacalCase to Space Case, eg. IODriver to 'IO driver'
+    /// PacalCase to Space case, eg. IODriver to 'IO driver'
     /// </summary>
     public static string? ToSpaceCase(this string pascalCase) =>
         pascalCase.ToCaseWithAbbreviations((type, c) => type switch
