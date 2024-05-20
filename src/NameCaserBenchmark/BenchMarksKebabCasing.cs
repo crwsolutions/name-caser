@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using NameCaser;
-using NameCaser.Utils;
+using NameCaser.Core;
 using System.Text;
 
 namespace NameCaserBenchmark;

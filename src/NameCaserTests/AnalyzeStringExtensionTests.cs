@@ -1,4 +1,4 @@
-﻿using NameCaser.Utils;
+﻿using NameCaser.Core;
 using System.Text;
 using Xunit.Abstractions;
 

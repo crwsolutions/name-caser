@@ -1,4 +1,4 @@
-﻿namespace NameCaser.Utils;
+﻿namespace NameCaser.Core;
 
 internal struct CharBuilder(int size)
 {

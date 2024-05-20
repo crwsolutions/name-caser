@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NameCaser;
+﻿namespace NameCaser;
 
 public static class ToCamelCaseExtension
 {

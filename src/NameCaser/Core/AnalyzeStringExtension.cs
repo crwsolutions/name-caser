@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NameCaser.Utils;
+namespace NameCaser.Core;
 internal static class AnalyzeStringExtension
 {
     internal static (Types[] Bytes, int Breaks) Analyze(this ReadOnlySpan<char> chars)

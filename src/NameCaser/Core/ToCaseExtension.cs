@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NameCaser.Utils;
+namespace NameCaser.Core;
 internal static class ToCaseExtension
 {
     internal static string ToCase(this string pascalCase, Func<Types, char, char> callBack)

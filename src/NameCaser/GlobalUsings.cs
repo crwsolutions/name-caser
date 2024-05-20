@@ -1,2 +1,2 @@
-﻿global using System.Text;
-global using NameCaser.Utils;
+﻿global using NameCaser.Core;
+global using System;
