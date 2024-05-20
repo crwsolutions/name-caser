@@ -2,14 +2,14 @@
 using System.Text;
 using Xunit.Abstractions;
 
-namespace NameCaserTests;
+namespace Tests;
 public class AnalyzeStringExtensionTests
 {
     private readonly ITestOutputHelper _output;
 
     public AnalyzeStringExtensionTests(ITestOutputHelper output)
     {
-        this._output = output;
+        _output = output;
     }
 
     [Theory]
@@ -53,7 +53,6 @@ public class AnalyzeStringExtensionTests
         Assert.Equal(breaks, Breaks);
         Assert.Equal(expected, ToFlagsString(Bytes));
     }
-
 
     private static string ToFlagsString(Types[] Bytes)
     {
