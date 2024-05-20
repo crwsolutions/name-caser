@@ -1,8 +1,9 @@
 ﻿using BenchmarkDotNet.Attributes;
 using NameCaser;
 using NameCaser.Utils;
-using NameCaserBenchmark;
 using System.Text;
+
+namespace NameCaserBenchmark;
 
 //| Method                       | Mean     | Error   | StdDev  | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
 //|----------------------------- |---------:|--------:|--------:|------:|--------:|-------:|----------:|------------:|
@@ -16,24 +17,24 @@ public class BenchMarksKebabCasing
     readonly string _pascalCase = "IODeviceSomeLongerString";
 
     [Benchmark(Baseline = true)]
-    public string KebabCaseOrig()
+    public string? KebabCaseOrig()
     {
         return _pascalCase.ToLowerCaseWithSeperator('-')!;
     }
 
     [Benchmark]
-    public string KebabCaseFinal()
+    public string? KebabCaseFinal()
     {
         return _pascalCase.ToKebabCase()!;
     }
 
     [Benchmark]
-    public string KebabCaseWithAnalyzerAsBytes()
+    public string? KebabCaseWithAnalyzerAsBytes()
     {
         var span = _pascalCase.AsSpan();
         var (types, breaks) = span.Analyze();
         var bob = new CharBuilderBenchmark(_pascalCase.Length + breaks);
-        for (int i = 0; i < types.Length; i++)
+        for (var i = 0; i < types.Length; i++)
         {
             if (types[i] == Types.Break)
             {
@@ -54,25 +55,25 @@ public class BenchMarksKebabCasing
     }
 
     //[Benchmark]
-    public string KebabCaseUseReadOnlySpan()
+    public string? KebabCaseUseReadOnlySpan()
     {
         return _pascalCase.UseReadOnlySpan();
     }
 
     //[Benchmark]
-    public string KebabCaseUseCharBuilder()
+    public string? KebabCaseUseCharBuilder()
     {
         return _pascalCase.UseCharBuilder();
     }
 
     //[Benchmark]
-    public string KebabCaseUseBoth()
+    public string? KebabCaseUseBoth()
     {
         return _pascalCase.UseBoth();
     }
 
     //[Benchmark]
-    public string KebabCaseUseBothWithStruct()
+    public string? KebabCaseUseBothWithStruct()
     {
         return _pascalCase.UseBoth();
     }
@@ -80,7 +81,7 @@ public class BenchMarksKebabCasing
 
 public static class KebabCaseOptimized
 {
-    public static string UseReadOnlySpan(this string input)
+    public static string? UseReadOnlySpan(this string input)
     {
         ReadOnlySpan<char> pascalCase = input;
 
@@ -127,7 +128,7 @@ public static class KebabCaseOptimized
         return builder.ToString();
     }
 
-    public static string UseCharBuilder(this string pascalCase)
+    public static string? UseCharBuilder(this string pascalCase)
     {
         //ReadOnlySpan<char> pascalCase = input;
 
@@ -174,7 +175,7 @@ public static class KebabCaseOptimized
         return builder.ToString();
     }
 
-    public static string UseBoth(this string input)
+    public static string? UseBoth(this string input)
     {
         ReadOnlySpan<char> pascalCase = input;
 
@@ -221,7 +222,7 @@ public static class KebabCaseOptimized
         return builder.ToString();
     }
 
-    public static string UseBothWithStruct(this string input)
+    public static string? UseBothWithStruct(this string input)
     {
         ReadOnlySpan<char> pascalCase = input;
 

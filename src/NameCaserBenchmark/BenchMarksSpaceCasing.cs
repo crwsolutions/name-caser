@@ -1,7 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
-using NameCaser.Utils;
-using System.Text;
 using NameCaser;
+using System.Text;
 
 namespace NameCaserBenchmark;
 
@@ -16,7 +15,7 @@ public class BenchMarksSpaceCasing
     readonly string _pascalCase = "IODeviceSomeLongerString";
 
     [Benchmark(Baseline = true)]
-    public string CamelCaseOrig()
+    public string? CamelCaseOrig()
     {
         if (_pascalCase is null) return null;
 
@@ -64,7 +63,7 @@ public class BenchMarksSpaceCasing
     }
 
     [Benchmark]
-    public string CamelCaseFinal()
+    public string? CamelCaseFinal()
     {
         return _pascalCase.ToSpaceCase()!;
     }

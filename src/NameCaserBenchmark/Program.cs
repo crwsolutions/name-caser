@@ -4,7 +4,7 @@ using NameCaserBenchmark;
 internal class Program
 {
 
-    private static void Main(string[] args)
+    private static void Main()
     {
         var x = new BenchMarksConstantCasing();
         var s = x.ConstantCaseWithAnalyzerAndAction();

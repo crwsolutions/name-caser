@@ -3,14 +3,9 @@ using System.Text;
 using Xunit.Abstractions;
 
 namespace Tests;
-public class AnalyzeStringExtensionTests
+public class AnalyzeStringExtensionTests(ITestOutputHelper output)
 {
-    private readonly ITestOutputHelper _output;
-
-    public AnalyzeStringExtensionTests(ITestOutputHelper output)
-    {
-        _output = output;
-    }
+    private readonly ITestOutputHelper _output = output;
 
     [Theory]
     [InlineData("CaseWithNumberPostfix1", "1000200020000020000000", 3)]

@@ -1,8 +1,9 @@
 ﻿using BenchmarkDotNet.Attributes;
-using NameCaserBenchmark;
-using System.Text;
 using NameCaser;
 using NameCaser.Utils;
+using System.Text;
+
+namespace NameCaserBenchmark;
 
 //| Method                            | Mean     | Error   | StdDev  | Ratio | Gen0   | Allocated | Alloc Ratio |
 //|---------------------------------- |---------:|--------:|--------:|------:|-------:|----------:|------------:|
@@ -14,60 +15,60 @@ using NameCaser.Utils;
 [MemoryDiagnoser(true)]
 public class BenchMarksConstantCasing
 {
-    readonly string pascalCase = "IODeviceSomeLongerString";
+    readonly string _pascalCase = "IODeviceSomeLongerString";
 
     [Benchmark(Baseline = true)]
-    public string ConstantCaseOrig()
+    public string? ConstantCaseOrig()
     {
         var builder = new StringBuilder();
 
-        for (var i = 0; i < pascalCase.Length; i++)
+        for (var i = 0; i < _pascalCase.Length; i++)
         {
-            if (pascalCase[i].IsNumber()) // if current char is number
+            if (_pascalCase[i].IsNumber()) // if current char is number
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
             else if (i == 0) // if current char is the first char
             {
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
             }
-            else if (pascalCase[i] == '_')
+            else if (_pascalCase[i] == '_')
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
-            else if (char.IsLower(pascalCase[i]))
+            else if (char.IsLower(_pascalCase[i]))
             {
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
             }
-            else if (char.IsLower(pascalCase[i - 1])) // if current char is upper and previous char is lower
+            else if (char.IsLower(_pascalCase[i - 1])) // if current char is upper and previous char is lower
             {
                 builder.Append('_');
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
             }
-            else if (i + 1 == pascalCase.Length || char.IsUpper(pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
+            else if (i + 1 == _pascalCase.Length || char.IsUpper(_pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
             else // if current char is upper and next char is lower
             {
-                if (pascalCase[i + 1] != '_')
+                if (_pascalCase[i + 1] != '_')
                 {
                     builder.Append('_');
                 }
 
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
             }
         }
         return builder.ToString();
     }
 
     [Benchmark]
-    public string ConstantCaseWithAnalyzerAsBytes()
+    public string? ConstantCaseWithAnalyzerAsBytes()
     {
-        var span = pascalCase.AsSpan();
+        var span = _pascalCase.AsSpan();
         var (types, breaks) = span.Analyze();
-        var bob = new CharBuilderBenchmark(pascalCase.Length + breaks);
-        for (int i = 0; i < types.Length; i++)
+        var bob = new CharBuilderBenchmark(_pascalCase.Length + breaks);
+        for (var i = 0; i < types.Length; i++)
         {
             if (types[i] == Types.Break)
             {
@@ -88,16 +89,16 @@ public class BenchMarksConstantCasing
     }
 
     [Benchmark]
-    public string ConstantCaseFinal()
+    public string? ConstantCaseFinal()
     {
-        return pascalCase.ToConstantCase()!;
+        return _pascalCase.ToConstantCase()!;
     }
 
     [Benchmark]
-    public string ConstantCaseWithAnalyzerAndAction()
+    public string? ConstantCaseWithAnalyzerAndAction()
     {
         return Parse(
-            pascalCase, 
+            _pascalCase,
             (type, c) => type switch
             {
                 Types.Break => '_',
@@ -108,9 +109,9 @@ public class BenchMarksConstantCasing
     }
 
     //[Benchmark]
-    public string ConstantCaseWithAnalyzerAndActionAndStackAlloc()
+    public string? ConstantCaseWithAnalyzerAndActionAndStackAlloc()
     {
-        return Parse2(pascalCase, (type, c, builder) =>
+        return Parse2(_pascalCase, (type, c, builder) =>
         {
             if (type == 2)
             {
@@ -128,7 +129,7 @@ public class BenchMarksConstantCasing
         });
     }
 
-    private static string Parse(string pascalCase, Func<Types, char, char> value)
+    private static string? Parse(string pascalCase, Func<Types, char, char> value)
     {
         if (pascalCase is null) return null;
 
@@ -137,7 +138,7 @@ public class BenchMarksConstantCasing
         var span = pascalCase.AsSpan();
         var (types, breaks) = span.Analyze();
         var bob = new CharBuilderBenchmark(pascalCase.Length + breaks);
-        for (int i = 0; i < types.Length; i++)
+        for (var i = 0; i < types.Length; i++)
         {
             if (types[i] == Types.Break)
             {
@@ -151,7 +152,7 @@ public class BenchMarksConstantCasing
         return bob.ToString();
     }
 
-    private static string Parse2(string pascalCase, Action<byte, char, CharBuilderBenchmark> value)
+    private static string? Parse2(string pascalCase, Action<byte, char, CharBuilderBenchmark> value)
     {
         if (pascalCase is null) return null;
 
@@ -189,7 +190,7 @@ public class BenchMarksConstantCasing
             }
         }
         var bob = new CharBuilderBenchmark(pascalCase.Length + breaks);
-        for (int i = 0; i < bytes.Length; i++)
+        for (var i = 0; i < bytes.Length; i++)
         {
             value(bytes[i], chars[i], bob);
         }
@@ -197,99 +198,99 @@ public class BenchMarksConstantCasing
         return bob.ToString();
     }
     //[Benchmark]
-    public string ConstantCaseShuffleIfs()
+    public string? ConstantCaseShuffleIfs()
     {
         var builder = new StringBuilder();
 
-        for (var i = 0; i < pascalCase.Length; i++)
+        for (var i = 0; i < _pascalCase.Length; i++)
         {
             if (i == 0) // if current char is the first char
             {
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
             }
-            else if (char.IsLower(pascalCase[i]))
+            else if (char.IsLower(_pascalCase[i]))
             {
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
             }
-            else if (pascalCase[i].IsNumber()) // if current char is number
+            else if (_pascalCase[i].IsNumber()) // if current char is number
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
-            else if (pascalCase[i] == '_')
+            else if (_pascalCase[i] == '_')
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
-            else if (char.IsLower(pascalCase[i - 1])) // if current char is upper and previous char is lower
+            else if (char.IsLower(_pascalCase[i - 1])) // if current char is upper and previous char is lower
             {
                 builder.Append('_');
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
             }
-            else if (i + 1 == pascalCase.Length || char.IsUpper(pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
+            else if (i + 1 == _pascalCase.Length || char.IsUpper(_pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
             else // if current char is upper and next char is lower
             {
-                if (pascalCase[i + 1] != '_')
+                if (_pascalCase[i + 1] != '_')
                 {
                     builder.Append('_');
                 }
 
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
             }
         }
         return builder.ToString();
     }
 
     //[Benchmark]
-    public string ConstantCaseRemoveFirstIf()
+    public string? ConstantCaseRemoveFirstIf()
     {
         var builder = new StringBuilder();
-        builder.Append(char.ToUpper(pascalCase[0]));
-        for (var i = 1; i < pascalCase.Length; i++)
+        builder.Append(char.ToUpper(_pascalCase[0]));
+        for (var i = 1; i < _pascalCase.Length; i++)
         {
-            if (pascalCase[i].IsNumber()) // if current char is number
+            if (_pascalCase[i].IsNumber()) // if current char is number
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
-            else if (pascalCase[i] == '_')
+            else if (_pascalCase[i] == '_')
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
-            else if (char.IsLower(pascalCase[i]))
+            else if (char.IsLower(_pascalCase[i]))
             {
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
             }
-            else if (char.IsLower(pascalCase[i - 1])) // if current char is upper and previous char is lower
+            else if (char.IsLower(_pascalCase[i - 1])) // if current char is upper and previous char is lower
             {
                 builder.Append('_');
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
             }
-            else if (i + 1 == pascalCase.Length || char.IsUpper(pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
+            else if (i + 1 == _pascalCase.Length || char.IsUpper(_pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
             else // if current char is upper and next char is lower
             {
-                if (pascalCase[i + 1] != '_')
+                if (_pascalCase[i + 1] != '_')
                 {
                     builder.Append('_');
                 }
 
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
             }
         }
         return builder.ToString();
     }
 
     //[Benchmark]
-    public string ConstantCasePutCharInVar()
+    public string? ConstantCasePutCharInVar()
     {
         var builder = new StringBuilder();
         var lastIsLower = true;
-        for (var i = 0; i < pascalCase.Length; i++)
+        for (var i = 0; i < _pascalCase.Length; i++)
         {
-            var c = pascalCase[i];
+            var c = _pascalCase[i];
             if (i == 0) // if current char is the first char
             {
                 builder.Append(char.ToUpper(c));
@@ -315,14 +316,14 @@ public class BenchMarksConstantCasing
                 builder.Append(char.ToUpper(c));
                 lastIsLower = false;
             }
-            else if (i + 1 == pascalCase.Length || char.IsUpper(pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
+            else if (i + 1 == _pascalCase.Length || char.IsUpper(_pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
             {
                 builder.Append(c);
                 lastIsLower = false;
             }
             else // if current char is upper and next char is lower
             {
-                if (pascalCase[i + 1] != '_')
+                if (_pascalCase[i + 1] != '_')
                 {
                     builder.Append('_');
                 }
@@ -335,50 +336,50 @@ public class BenchMarksConstantCasing
     }
 
     //[Benchmark]
-    public string ConstantCaseSaveLastCase()
+    public string? ConstantCaseSaveLastCase()
     {
         var builder = new StringBuilder();
         var lastIsLower = true;
-        for (var i = 0; i < pascalCase.Length; i++)
+        for (var i = 0; i < _pascalCase.Length; i++)
         {
             if (i == 0) // if current char is the first char
             {
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
             }
-            else if (pascalCase[i].IsNumber()) // if current char is number
+            else if (_pascalCase[i].IsNumber()) // if current char is number
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
                 lastIsLower = false;
             }
-            else if (pascalCase[i] == '_')
+            else if (_pascalCase[i] == '_')
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
                 lastIsLower = false;
             }
-            else if (char.IsLower(pascalCase[i]))
+            else if (char.IsLower(_pascalCase[i]))
             {
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
                 lastIsLower = true;
             }
             else if (lastIsLower) // if current char is upper and previous char is lower
             {
                 builder.Append('_');
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
                 lastIsLower = false;
             }
-            else if (i + 1 == pascalCase.Length || char.IsUpper(pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
+            else if (i + 1 == _pascalCase.Length || char.IsUpper(_pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
                 lastIsLower = false;
             }
             else // if current char is upper and next char is lower
             {
-                if (pascalCase[i + 1] != '_')
+                if (_pascalCase[i + 1] != '_')
                 {
                     builder.Append('_');
                 }
 
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
                 lastIsLower = false;
             }
         }
@@ -386,150 +387,150 @@ public class BenchMarksConstantCasing
     }
 
     //[Benchmark]
-    public string ConstantCaseUpperCaseInTheEnd()
+    public string? ConstantCaseUpperCaseInTheEnd()
     {
         var builder = new StringBuilder();
 
-        for (var i = 0; i < pascalCase.Length; i++)
+        for (var i = 0; i < _pascalCase.Length; i++)
         {
-            if (pascalCase[i].IsNumber()) // if current char is number
+            if (_pascalCase[i].IsNumber()) // if current char is number
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
             else if (i == 0) // if current char is the first char
             {
-                builder.Append(char.ToUpper(pascalCase[i]));
+                builder.Append(char.ToUpper(_pascalCase[i]));
             }
-            else if (pascalCase[i] == '_')
+            else if (_pascalCase[i] == '_')
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
-            else if (char.IsLower(pascalCase[i]))
+            else if (char.IsLower(_pascalCase[i]))
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
-            else if (char.IsLower(pascalCase[i - 1])) // if current char is upper and previous char is lower
+            else if (char.IsLower(_pascalCase[i - 1])) // if current char is upper and previous char is lower
             {
                 builder.Append('_');
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
-            else if (i + 1 == pascalCase.Length || char.IsUpper(pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
+            else if (i + 1 == _pascalCase.Length || char.IsUpper(_pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
             else // if current char is upper and next char is lower
             {
-                if (pascalCase[i + 1] != '_')
+                if (_pascalCase[i + 1] != '_')
                 {
                     builder.Append('_');
                 }
 
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
         }
         return builder.ToString().ToUpperInvariant();
     }
 
     //[Benchmark]
-    public string ConstantCaseUpperCaseInTheEndCharbuilder()
+    public string? ConstantCaseUpperCaseInTheEndCharbuilder()
     {
-        var builder = new CharBuilderBenchmark(pascalCase.Length *2);
+        var builder = new CharBuilderBenchmark(_pascalCase.Length * 2);
 
-        for (var i = 0; i < pascalCase.Length; i++)
+        for (var i = 0; i < _pascalCase.Length; i++)
         {
-            if (pascalCase[i].IsNumber()) // if current char is number
+            if (_pascalCase[i].IsNumber()) // if current char is number
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
             else if (i == 0) // if current char is the first char
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
-            else if (pascalCase[i] == '_')
+            else if (_pascalCase[i] == '_')
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
-            else if (char.IsLower(pascalCase[i]))
+            else if (char.IsLower(_pascalCase[i]))
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
-            else if (char.IsLower(pascalCase[i - 1])) // if current char is upper and previous char is lower
+            else if (char.IsLower(_pascalCase[i - 1])) // if current char is upper and previous char is lower
             {
                 builder.Append('_');
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
-            else if (i + 1 == pascalCase.Length || char.IsUpper(pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
+            else if (i + 1 == _pascalCase.Length || char.IsUpper(_pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
             {
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
             else // if current char is upper and next char is lower
             {
-                if (pascalCase[i + 1] != '_')
+                if (_pascalCase[i + 1] != '_')
                 {
                     builder.Append('_');
                 }
 
-                builder.Append(pascalCase[i]);
+                builder.Append(_pascalCase[i]);
             }
         }
         return builder.ToString().ToUpperInvariant();
     }
 
     //[Benchmark]
-    public string ConstantCaseUpperCaseInTheEndSpanAlloc()
+    public string? ConstantCaseUpperCaseInTheEndSpanAlloc()
     {
-        Span<char> chars = stackalloc char[pascalCase.Length * 2];
-        int charIndex = 0;
-        for (var i = 0; i < pascalCase.Length; i++)
+        Span<char> chars = stackalloc char[_pascalCase.Length * 2];
+        var charIndex = 0;
+        for (var i = 0; i < _pascalCase.Length; i++)
         {
-            if (pascalCase[i].IsNumber()) // if current char is number
+            if (_pascalCase[i].IsNumber()) // if current char is number
             {
-                chars[charIndex++] = pascalCase[i];
+                chars[charIndex++] = _pascalCase[i];
             }
             else if (i == 0) // if current char is the first char
             {
-                chars[charIndex++] = pascalCase[i];
+                chars[charIndex++] = _pascalCase[i];
             }
-            else if (pascalCase[i] == '_')
+            else if (_pascalCase[i] == '_')
             {
-                chars[charIndex++] = pascalCase[i];
+                chars[charIndex++] = _pascalCase[i];
             }
-            else if (char.IsLower(pascalCase[i]))
+            else if (char.IsLower(_pascalCase[i]))
             {
-                chars[charIndex++] = pascalCase[i];
+                chars[charIndex++] = _pascalCase[i];
             }
-            else if (char.IsLower(pascalCase[i - 1])) // if current char is upper and previous char is lower
+            else if (char.IsLower(_pascalCase[i - 1])) // if current char is upper and previous char is lower
             {
                 chars[charIndex++] = '_';
-                chars[charIndex++] = pascalCase[i];
+                chars[charIndex++] = _pascalCase[i];
             }
-            else if (i + 1 == pascalCase.Length || char.IsUpper(pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
+            else if (i + 1 == _pascalCase.Length || char.IsUpper(_pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
             {
-                chars[charIndex++] = pascalCase[i];
+                chars[charIndex++] = _pascalCase[i];
             }
             else // if current char is upper and next char is lower
             {
-                if (pascalCase[i + 1] != '_')
+                if (_pascalCase[i + 1] != '_')
                 {
                     chars[charIndex++] = '_';
                 }
 
-                chars[charIndex++] = pascalCase[i];
+                chars[charIndex++] = _pascalCase[i];
             }
         }
-        return (new string(chars[0..(charIndex-1)])).ToUpperInvariant();
+        return (new string(chars[0..(charIndex - 1)])).ToUpperInvariant();
     }
 
     //[Benchmark]
-    public string ConstantCaseAll()
+    public string? ConstantCaseAll()
     {
-        Span<char> chars = stackalloc char[pascalCase.Length * 2];
-        int charIndex = 0;
+        Span<char> chars = stackalloc char[_pascalCase.Length * 2];
+        var charIndex = 0;
         var lastIsLower = false;
-        chars[charIndex++] = pascalCase[1];
-        for (var i = 1; i < pascalCase.Length; i++)
+        chars[charIndex++] = _pascalCase[1];
+        for (var i = 1; i < _pascalCase.Length; i++)
         {
-            var c = pascalCase[i];
+            var c = _pascalCase[i];
             if (c.IsNumber()) // if current char is number
             {
                 chars[charIndex++] = c;
@@ -551,14 +552,14 @@ public class BenchMarksConstantCasing
                 chars[charIndex++] = c;
                 lastIsLower = false;
             }
-            else if (i + 1 == pascalCase.Length || char.IsUpper(pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
+            else if (i + 1 == _pascalCase.Length || char.IsUpper(_pascalCase[i + 1])) // if current char is upper and next char doesn't exist or is upper
             {
                 chars[charIndex++] = c;
                 lastIsLower = false;
             }
             else // if current char is upper and next char is lower
             {
-                if (pascalCase[i + 1] != '_')
+                if (_pascalCase[i + 1] != '_')
                 {
                     chars[charIndex++] = '_';
                 }

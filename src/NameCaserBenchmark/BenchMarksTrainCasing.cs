@@ -15,7 +15,7 @@ public class BenchMarksTrainCasing
     readonly string _pascalCase = "IODeviceSomeLongerString";
 
     [Benchmark(Baseline = true)]
-    public string CamelCaseOrig()
+    public string? CamelCaseOrig()
     {
         if (_pascalCase is null) return null;
 
