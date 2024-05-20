@@ -13,14 +13,14 @@ public class AnalyzeStringExtensionTests
     }
 
     [Theory]
-    [InlineData("CaseWithNumberPostfix1", "1000300030000030000000", 3)]
+    [InlineData("CaseWithNumberPostfix1", "1000200020000020000000", 3)]
     [InlineData("Some", "1000", 0)]
-    [InlineData("PoCo", "1030", 1)]
+    [InlineData("PoCo", "1020", 1)]
     [InlineData("", "", 0)]
     [InlineData("UTP", "111", 0)]
-    [InlineData("UTPCable", "11130000", 1)]
-    [InlineData("SomeUTPCable", "100031130000", 2)]
-    [InlineData("SomeUTP", "1000311", 1)]
+    [InlineData("UTPCable", "11120000", 1)]
+    [InlineData("SomeUTPCable", "100021120000", 2)]
+    [InlineData("SomeUTP", "1000211", 1)]
     public void Analyze_Input_ShouldGiveExpected(string input, string expected, int breaks)
     {
         _output.WriteLine(input);

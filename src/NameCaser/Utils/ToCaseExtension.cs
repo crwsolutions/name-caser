@@ -15,11 +15,13 @@ internal static class ToCaseExtension
         var bob = new CharBuilder(pascalCase.Length + breaks);
         for (var i = 0; i < types.Length; i++)
         {
-            if (types[i].Is(Types.Break))
+            if (types[i] == Types.Break)
             {
-                bob.Append(callBack(Types.Break, '*'));
+                bob.Append(callBack(types[i], '*'));
+                bob.Append(callBack(Types.Upper, span[i]));
+                continue;
             }
-            bob.Append(callBack(types[i].Is(Types.Upper) ? Types.Upper : Types.Lower, span[i]));
+            bob.Append(callBack(types[i], span[i]));
         }
 
         return bob.ToString();

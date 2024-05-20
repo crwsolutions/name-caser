@@ -20,24 +20,25 @@ internal static class AnalyzeStringExtension
                 }
                 else
                 {
+                    types[i] = Types.Upper;
                     if (i > 0)
                     {
                         last = Types.Upper;
                     }
                 }
-                types[i] |= Types.Upper;
             }
             else
             {
                 if (last == Types.Upper)
                 {
-                    types[i - 1] |= Types.Break;
+                    types[i - 1] = Types.Break;
                     breaks++;
                 }
 
                 last = Types.Lower;
             }
         }
+
         return (types, breaks);
     }
 
