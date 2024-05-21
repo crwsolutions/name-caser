@@ -1,6 +1,8 @@
 # name-caser
 Extension methods to convert Pascal casing to other casings
 
+[![NuGet version (NameCaser)](https://img.shields.io/nuget/v/NameCaser?color=blue)](https://www.nuget.org/packages/NameCaser/)
+
 Examples:
 ```csharp
 using NameCaser;
@@ -34,7 +36,7 @@ Console.WriteLine(someUTPCable.ToTrainCase());    // Some-UTP-Cable
 
 ### 1. camelCase
 
-Camel Case is actually inspired from animal “Camel”. Where first word will be small letters and from second word, first character will be captialized like camelCase.
+Camel Case is actually inspired from animal â€œCamelâ€. Where first word will be small letters and from second word, first character will be captialized like camelCase.
 
 > Camel Case is often used for property Naming in typescript
 
@@ -46,7 +48,7 @@ Snake Case is naming with words separated by _ ( underscore ) and all small lett
 
 ### 3. kebab-case
 
-Kebab Case is naming with words separated by — ( hyphen ) with all small letters
+Kebab Case is naming with words separated by â€” ( hyphen ) with all small letters
 
 > Kebab Case is often used for CSS naming
 
@@ -64,6 +66,6 @@ Constant case is naming with all letters Capitalized but the words are separated
 
 ### 6. Train-Case
 
-Train Case is naming with first character of every word of name is Capitalised and words are connected with — ( hyphen ).
+Train Case is naming with first character of every word of name is Capitalised and words are connected with â€” ( hyphen ).
 
 > Train Case is also often used for file Naming
