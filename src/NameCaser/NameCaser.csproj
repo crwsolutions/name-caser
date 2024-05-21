@@ -21,8 +21,8 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Title>String extension methods to convert Pascal case string to other casings</Title>
   </PropertyGroup>
+
     <ItemGroup>
-        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
         <None Include="..\..\README.md">
           <Pack>True</Pack>
           <PackagePath>\</PackagePath>
