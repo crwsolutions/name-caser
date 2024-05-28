@@ -20,31 +20,25 @@ public static class ToCamelCaseExtension
 
 #if NETSTANDARD2_0
         var chars = pascalCase.ToCharArray();
-        for (var i = 0; i < chars.Length; i++)
+        int i = 0;
+        do
         {
-            var hasNext = (i + 1 < chars.Length);
-            if (i > 0 && hasNext && !char.IsUpper(chars[i + 1]))
-            {
-                break;
-            }
-
             chars[i] = char.ToLowerInvariant(chars[i]);
-        }
+            i++;
+        } while (i < chars.Length && !(i + 1 < chars.Length && !char.IsUpper(chars[i + 1])));
+
         return new string(chars);
 #else
         return string.Create(pascalCase.Length, pascalCase, (span, input) =>
         {
             var chars = input.AsSpan();
             chars.CopyTo(span);
-            for (var i = 0; i < span.Length; i++)
+            int i = 0;
+            do
             {
-                if (i > 0 && (i + 1 < chars.Length) && !char.IsUpper(chars[i + 1]))
-                {
-                    break;
-                }
-
                 span[i] = char.ToLowerInvariant(chars[i]);
-            }
+                i++;
+            } while (i < chars.Length && !(i + 1 < chars.Length && !char.IsUpper(chars[i + 1])));
         });
 #endif
     }

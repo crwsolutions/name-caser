@@ -44,7 +44,7 @@ public class BenchMarksCamelCasing
         {
             chars[i] = char.ToLowerInvariant(chars[i]);
             i++;
-        } while (i + 1 < chars.Length && !char.IsUpper(chars[i + 1]));
+        } while (i < chars.Length && !(i + 1 < chars.Length && !char.IsUpper(chars[i + 1])));
 
         return new string(chars);
     }
@@ -61,7 +61,7 @@ public class BenchMarksCamelCasing
             {
                 span[i] = char.ToLowerInvariant(chars[i]);
                 i++;
-            } while (i < chars.Length && char.IsUpper(chars[i]));
+            } while (i < chars.Length && !(i + 1 < chars.Length && !char.IsUpper(chars[i + 1])));
         });
     }
 
@@ -104,7 +104,7 @@ public class BenchMarksCamelCasing
         {
             for (var j = 0; j < i; j++)
             {
-                p[j] = char.ToUpper(p[j]);
+                p[j] = char.ToLowerInvariant(p[j]);
             }
         }
         return newString;
