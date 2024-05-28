@@ -1,5 +1,5 @@
 # name-caser
-Extension methods to convert Pascal casing to other casings
+String Extension methods to convert PascalCasing to other_casings, taking into account abbreviations.
 
 [![NuGet version (NameCaser)](https://img.shields.io/nuget/v/NameCaser?color=blue)](https://www.nuget.org/packages/NameCaser/)
 
