@@ -12,7 +12,7 @@ public class ToKebabCaseExtensionTests
 
         // Act
 #pragma warning disable CS8604 // Possible null reference argument.
-        string? result = input.ToKebabCase();
+        var result = input.ToKebabCase();
 #pragma warning restore CS8604 // Possible null reference argument.
 
         // Assert
@@ -23,10 +23,10 @@ public class ToKebabCaseExtensionTests
     public void ToKebabCase_ReturnsEmpty_WhenInputIsEmpty()
     {
         // Arrange
-        string input = "";
+        var input = "";
 
         // Act
-        string? result = input.ToKebabCase();
+        var result = input.ToKebabCase();
 
         // Assert
         Assert.Equal("", result);
@@ -44,7 +44,7 @@ public class ToKebabCaseExtensionTests
     public void ToKebabCase_ConvertsToKebabCase(string input, string expected)
     {
         // Act
-        string? result = input.ToKebabCase();
+        var result = input.ToKebabCase();
 
         // Assert
         Assert.Equal(expected, result);
@@ -56,7 +56,7 @@ public class ToKebabCaseExtensionTests
     public void ToKebabCase_NoChangeForNonPascalCase(string input, string expected)
     {
         // Act
-        string? result = input.ToKebabCase();
+        var result = input.ToKebabCase();
 
         // Assert
         Assert.Equal(expected, result);

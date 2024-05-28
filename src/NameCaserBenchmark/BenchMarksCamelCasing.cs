@@ -39,7 +39,7 @@ public class BenchMarksCamelCasing
     {
         var chars = _pascalCase.ToCharArray();
 
-        int i = 0;
+        var i = 0;
         do
         {
             chars[i] = char.ToLowerInvariant(chars[i]);
@@ -56,7 +56,7 @@ public class BenchMarksCamelCasing
         {
             var chars = input.AsSpan();
             chars.CopyTo(span);
-            int i = 0;
+            var i = 0;
             do
             {
                 span[i] = char.ToLowerInvariant(chars[i]);

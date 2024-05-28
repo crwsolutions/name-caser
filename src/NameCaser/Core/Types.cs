@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NameCaser.Core;
+﻿namespace NameCaser.Core;
 
 [Flags]
 internal enum Types : byte

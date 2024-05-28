@@ -20,7 +20,7 @@ public static class ToCamelCaseExtension
 
 #if NETSTANDARD2_0
         var chars = pascalCase.ToCharArray();
-        int i = 0;
+        var i = 0;
         do
         {
             chars[i] = char.ToLowerInvariant(chars[i]);
@@ -33,7 +33,7 @@ public static class ToCamelCaseExtension
         {
             var chars = input.AsSpan();
             chars.CopyTo(span);
-            int i = 0;
+            var i = 0;
             do
             {
                 span[i] = char.ToLowerInvariant(chars[i]);

@@ -12,7 +12,7 @@ public class ToTrainCaseExtensionTests
 
         // Act
 #pragma warning disable CS8604 // Possible null reference argument.
-        string? result = input.ToTrainCase();
+        var result = input.ToTrainCase();
 #pragma warning restore CS8604 // Possible null reference argument.
 
         // Assert
@@ -23,10 +23,10 @@ public class ToTrainCaseExtensionTests
     public void ToTrainCase_ReturnsEmpty_WhenInputIsEmpty()
     {
         // Arrange
-        string input = "";
+        var input = "";
 
         // Act
-        string? result = input.ToTrainCase();
+        var result = input.ToTrainCase();
 
         // Assert
         Assert.Equal("", result);
@@ -41,7 +41,7 @@ public class ToTrainCaseExtensionTests
     public void ToTrainCase_ConvertsToTrainCase(string input, string expected)
     {
         // Act
-        string? result = input.ToTrainCase();
+        var result = input.ToTrainCase();
 
         // Assert
         Assert.Equal(expected, result);
@@ -53,7 +53,7 @@ public class ToTrainCaseExtensionTests
     public void ToTrainCase_NoChangeForNonPascalCase(string input, string expected)
     {
         // Act
-        string? result = input.ToTrainCase();
+        var result = input.ToTrainCase();
 
         // Assert
         Assert.Equal(expected, result);

@@ -12,7 +12,7 @@ public class ToSpaceCaseExtensionTests
 
         // Act
 #pragma warning disable CS8604 // Possible null reference argument.
-        string? result = input.ToSpaceCase();
+        var result = input.ToSpaceCase();
 #pragma warning restore CS8604 // Possible null reference argument.
 
         // Assert
@@ -23,10 +23,10 @@ public class ToSpaceCaseExtensionTests
     public void ToSpaceCase_ReturnsEmpty_WhenInputIsEmpty()
     {
         // Arrange
-        string input = "";
+        var input = "";
 
         // Act
-        string? result = input.ToSpaceCase();
+        var result = input.ToSpaceCase();
 
         // Assert
         Assert.Equal("", result);
@@ -43,7 +43,7 @@ public class ToSpaceCaseExtensionTests
     public void ToSpaceCase_ConvertsToSpaceCase(string input, string expected)
     {
         // Act
-        string? result = input.ToSpaceCase();
+        var result = input.ToSpaceCase();
 
         // Assert
         Assert.Equal(expected, result);
@@ -56,7 +56,7 @@ public class ToSpaceCaseExtensionTests
     public void ToSpaceCase_NoChangeForNonPascalCase(string input, string expected)
     {
         // Act
-        string? result = input.ToSpaceCase();
+        var result = input.ToSpaceCase();
 
         // Assert
         Assert.Equal(expected, result);
