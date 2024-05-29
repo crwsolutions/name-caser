@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <PackageId>NameCaser</PackageId>
         <VersionSuffix Condition="'$(VersionSuffix)' == ''">0</VersionSuffix>
-        <Version>0.4.$(VersionSuffix)</Version>
+        <Version>1.0.$(VersionSuffix)</Version>
         <Authors>Colin Wilmans</Authors>
         <PackageDescription>String extension methods to convert Pascal casing to other casings</PackageDescription>
         <RepositoryUrl>https://github.com/crwsolutions/name-caser.git</RepositoryUrl>
@@ -20,7 +20,7 @@
         <Description>String extension methods to convert Pascal casing to other casings. Eg: s.ToCamelCase()</Description>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Title>String Extension methods to convert PascalCasing to other_casings, taking into account abbreviations.</Title>
-        <PackageReleaseNotes>Use Do While in CamelCase which should be around 5% faster.</PackageReleaseNotes>
+        <PackageReleaseNotes>Added ToPascalCase method</PackageReleaseNotes>
   </PropertyGroup>
 
     <ItemGroup>
