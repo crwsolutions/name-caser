@@ -55,6 +55,33 @@ public class BenchMarksKebabCasing
     }
 
     [Benchmark]
+    public string? KebabCaseWithAnalyzerAndStringCreate()
+    {
+        var span = _pascalCase.AsSpan();
+        var (types, breaks) = span.Analyze();
+        return string.Create(_pascalCase.Length + breaks, (types, _pascalCase), ( chars, r) =>
+        {
+            var x = 0;
+            for (var i = 0; i < types.Length; i++)
+            {
+                if (types[i] == Types.Break)
+                {
+                    chars[x++] = '_';
+                    chars[x++] = char.ToLower(_pascalCase[i]);
+                }
+                else if (types[i] == Types.Upper)
+                {
+                    chars[x++] = char.ToLower(_pascalCase[i]);
+                }
+                else
+                {
+                    chars[x++] = _pascalCase[i];
+                }
+            }
+        });
+    }
+
+    [Benchmark]
     public string? KebabCaseWithAnalyzerInArrayPool()
     {
         var span = _pascalCase.AsSpan();
