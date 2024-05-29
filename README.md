@@ -1,9 +1,14 @@
 # name-caser
-String Extension methods to convert PascalCasing to other_casings, taking into account abbreviations.
+String Extension methods to convert __PascalCasing__ to other_casings, taking into account abbreviations.
 
 [![NuGet version (NameCaser)](https://img.shields.io/nuget/v/NameCaser?color=blue)](https://www.nuget.org/packages/NameCaser/)
 
-Examples:
+> __Pascal case__ is a naming convention where the first letter of each word in a variable is capitalized, while the remaining letters are in lowercase. Examples:
+> - PascalCase
+> - SomeUTPCable
+
+
+### Usage examples:
 ```csharp
 using NameCaser;
 
@@ -30,6 +35,12 @@ Console.WriteLine(someUTPCable.ToKebabCase());    // some-utp-cable
 Console.WriteLine(someUTPCable.ToSpaceCase());    // Some UTP cable
 Console.WriteLine(someUTPCable.ToConstantCase()); // SOME_UTP_CABLE
 Console.WriteLine(someUTPCable.ToTrainCase());    // Some-UTP-Cable
+
+//Bonus: ToPascal() Method
+var somePhrase = " - Some UTP cable "
+Console.WriteLine(somePhrase.ToPascalCase());     // SomeUTPCable
+Console.WriteLine(somePhrase.ToPascalCase()
+                            .ToKebabCase());      // some-utp-cable
 ```
 
 ## Supports the conversion to the following casings
