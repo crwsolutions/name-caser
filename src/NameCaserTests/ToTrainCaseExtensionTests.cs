@@ -37,6 +37,7 @@ public class ToTrainCaseExtensionTests
     [InlineData("CaseWithNumberPostfix1", "Case-With-Number-Postfix1")]
     [InlineData("MixedCaseString", "Mixed-Case-String")]
     [InlineData("IODriver", "IO-Driver")]
+    [InlineData("IPhone", "I-Phone")]
     [InlineData("SomeIODriver", "Some-IO-Driver")]
     public void ToTrainCase_ConvertsToTrainCase(string input, string expected)
     {

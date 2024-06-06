@@ -19,15 +19,12 @@ internal static class AnalyzeStringExtension
                 else
                 {
                     types[i] = Types.Upper;
-                    if (i > 0)
-                    {
-                        last = Types.Upper;
-                    }
+                    last = Types.Upper;
                 }
             }
             else
             {
-                if (last == Types.Upper)
+                if (last == Types.Upper && i > 1)
                 {
                     types[i - 1] = Types.Break;
                     breaks++;
