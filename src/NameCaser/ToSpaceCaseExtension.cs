@@ -10,9 +10,9 @@ public static class ToSpaceCaseExtension
         pascalCase.ToCaseWithFlags((flags, c) => flags switch
         {
             Types.Break => ' ',
-            { } when flags.Has(Types.Abbreviation) => c,
-            { } when flags.Has(Types.First) => c,
-            { } when flags.Has(Types.Upper) => char.ToLower(c),
+            _ when flags.Has(Types.Abbreviation) => c,
+            _ when flags.Has(Types.First) => c,
+            _ when flags.Has(Types.Upper) => char.ToLower(c),
             _ => c,
         });
 }
